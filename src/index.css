@@ -74,3 +74,13 @@ p {
   color: #b7b4b4;
   font-size: #b7b4b4;
 }
+
+.btn-primary {
+  border: none;
+  background-color: var(--primary-blue);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}

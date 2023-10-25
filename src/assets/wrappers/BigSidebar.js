@@ -39,8 +39,10 @@ const Wrapper = styled.aside`
     font-weight: 400;
   }
   .nav-link:hover {
-    padding-left: 3rem;
-    color: var(--primary-blue);
+    padding-left: 2rem;
+    background-color: var(--primary-blue);
+    border-radius: 60px 0px 0px 60px;
+    color: #fff;
   }
 
   .nav-link:hover .icon {

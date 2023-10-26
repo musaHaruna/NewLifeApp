@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Wrapper from '../../../assets/wrappers/Resources'
-import Documents from './Documents'
+import Documents from '../../../components/resources-page/Documents'
 import { CiSearch } from 'react-icons/ci'
 import { HiOutlinePhotograph } from 'react-icons/hi'
 import { HiOutlineDocumentText } from 'react-icons/hi'

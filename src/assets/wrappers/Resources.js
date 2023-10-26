@@ -67,7 +67,7 @@ const Wrapper = styled.main`
     justify-content: space-between;
     background-color: #f2f7fd;
     padding: 1rem;
-    border-radius: 15px;
+    border-radius: 15px 15px 0 0;
   }
 
   .tabs div {
@@ -95,6 +95,49 @@ const Wrapper = styled.main`
 
   .tab-btn.active h4 {
     color: var(--primary-blue);
+  }
+  .thead {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+  }
+
+  .tcontainer-wrapper {
+    background-color: #fff;
+  }
+
+  .tcontainer {
+    background-color: #fff;
+    border-bottom: 1px solid #b7b4b4;
+  }
+
+  .tcell {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .tcell.icon {
+    display: flex;
+    align-items: start;
+    gap: 0.2rem;
+  }
+
+  .tcell.icon p {
+    font-size: 30px;
+    color: var(--primary-blue);
+  }
+  a {
+    color: #1e1e1e;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    padding: 0.5rem 1.5rem;
+    margin: 3rem 0;
+  }
+
+  .tbtn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `
 

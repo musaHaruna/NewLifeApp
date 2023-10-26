@@ -158,6 +158,13 @@ const Wrapper = styled.main`
     display: block;
     width: 100%;
   }
+
+  .usefull-links {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #b7b4b4;
+  }
 `
 
 export default Wrapper

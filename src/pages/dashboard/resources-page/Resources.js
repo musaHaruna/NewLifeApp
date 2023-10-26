@@ -6,6 +6,7 @@ import { HiOutlinePhotograph } from 'react-icons/hi'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { TiDocumentText } from 'react-icons/ti'
 import { FiLink2 } from 'react-icons/fi'
+import Photos from '../../../components/resources-page/Photos'
 
 const Resources = () => {
   const [activeTab, setActiveTab] = useState('Documents')
@@ -93,7 +94,7 @@ const Resources = () => {
 
         <section>
           {activeTab === 'Documents' && <Documents />}
-          {activeTab === 'Photos' && 'Photos'}
+          {activeTab === 'Photos' && <Photos />}
           {activeTab === 'Useful Links' && 'Useful Links'}
           {activeTab === 'Publications and Research' &&
             'Publications and Research'}

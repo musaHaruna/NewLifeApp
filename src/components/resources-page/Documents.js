@@ -5,7 +5,6 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 
@@ -91,6 +90,9 @@ const Documents = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <div className='tbtn-container'>
+          <button className='btn-primary'>Load More</button>
+        </div>
         <div className='tbtn-container'>
           <button className='btn-primary'>Load More</button>
         </div>

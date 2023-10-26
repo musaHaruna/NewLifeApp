@@ -105,6 +105,10 @@ const Wrapper = styled.main`
     background-color: #fff;
   }
 
+  .tcontainer-wrapper.photo {
+    padding: 2rem;
+  }
+
   .tcontainer {
     background-color: #fff;
     border-bottom: 1px solid #b7b4b4;
@@ -138,6 +142,21 @@ const Wrapper = styled.main`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .photo-grid div {
+    width: 100%;
+  }
+
+  .photo-grid div img {
+    display: block;
+    width: 100%;
   }
 `
 

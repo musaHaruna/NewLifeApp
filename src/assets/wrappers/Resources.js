@@ -35,6 +35,7 @@ const Wrapper = styled.main`
 
   .btn-primary {
     padding: 0.7rem 1rem;
+    margin: 0;
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -51,7 +52,7 @@ const Wrapper = styled.main`
 
   .photos-search {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-end;
     gap: 0.5rem;
     width: 60%;
@@ -120,7 +121,7 @@ const Wrapper = styled.main`
 
   .tcell.icon {
     display: flex;
-    align-items: start;
+    align-items: center;
     gap: 0.2rem;
   }
 
@@ -135,7 +136,6 @@ const Wrapper = styled.main`
 
   .btn-primary {
     padding: 0.5rem 1.5rem;
-    margin: 3rem 0;
   }
 
   .tbtn-container {
@@ -164,6 +164,10 @@ const Wrapper = styled.main`
     gap: 1rem;
     padding: 0.5rem;
     border: 1px solid #b7b4b4;
+  }
+
+  .btn-primary.load-more {
+    margin: 3rem auto;
   }
 `
 

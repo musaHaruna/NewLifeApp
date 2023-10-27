@@ -42,7 +42,7 @@ const Photos = () => {
         </div>
       </section>
       <div className='tbtn-container'>
-        <button className='btn-primary'>Load More</button>
+        <button className='btn-primary load-more'>Load More</button>
       </div>
     </article>
   )

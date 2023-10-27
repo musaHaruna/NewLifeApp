@@ -11,9 +11,9 @@ import { Paper } from '@mui/material'
 
 const rows = [
   {
-    name: 'ABC of Getting any international scholarship',
-    group: 'Undergraduate Scholarship ',
-    visibility: 'Public',
+    name: 'Exploring Genomics of plant',
+    category: 'Genomics',
+    type: 'Research Document',
     dateUploaded: (
       <span>
         2023-04-15 by <a href=''>Wilson Ejim</a>
@@ -23,9 +23,9 @@ const rows = [
     icon: <HiOutlineDocumentText />,
   },
   {
-    name: 'ABCD of Getting any international scholarship',
-    group: 'Undergraduate Scholarship ',
-    visibility: 'Public',
+    name: 'Explorings Genomics of plant',
+    category: 'Genomics',
+    type: 'Research Document',
     dateUploaded: (
       <span>
         2023-04-15 by <a href=''>Wilson Ejim</a>
@@ -36,7 +36,7 @@ const rows = [
   },
 ]
 
-const Documents = () => {
+const Publications = () => {
   {
     return (
       <section className='tcontainer-wrapper'>
@@ -75,10 +75,10 @@ const Documents = () => {
                     {row.name}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
-                    {row.group}
+                    {row.category}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
-                    {row.visibility}
+                    {row.type}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
                     {row.dateUploaded}
@@ -98,4 +98,4 @@ const Documents = () => {
     )
   }
 }
-export default Documents
+export default Publications

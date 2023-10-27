@@ -8,6 +8,7 @@ import { TiDocumentText } from 'react-icons/ti'
 import { FiLink2 } from 'react-icons/fi'
 import Photos from '../../components/resources-page/Photos'
 import UsefullLinks from '../../components/resources-page/UsefullLinks'
+import Publications from '../../components/resources-page/Publications'
 
 const Resources = () => {
   const [activeTab, setActiveTab] = useState('Documents')
@@ -24,7 +25,7 @@ const Resources = () => {
         </article>
       )}
       {activeTab === 'Photos' && (
-        <article className='tab-content photos'>
+        <article className='tab-content'>
           <h2>Photos</h2>
           <div className='photos-search'>
             <div className='search'>
@@ -97,8 +98,7 @@ const Resources = () => {
           {activeTab === 'Documents' && <Documents />}
           {activeTab === 'Photos' && <Photos />}
           {activeTab === 'Useful Links' && <UsefullLinks />}
-          {activeTab === 'Publications and Research' &&
-            'Publications and Research'}
+          {activeTab === 'Publications and Research' && <Publications />}
         </section>
       </article>
     </Wrapper>

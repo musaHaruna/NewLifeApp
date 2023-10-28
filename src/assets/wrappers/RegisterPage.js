@@ -5,6 +5,7 @@ const Wrapper = styled.article`
   margin: 0.4rem auto;
   height: 580px;
   display: grid;
+  justify-content: center;
 
   background-color: #fff;
   overflow: hidden;
@@ -207,6 +208,10 @@ const Wrapper = styled.article`
   .btns a {
     display: block;
     width: 100%;
+  }
+
+  .error {
+    color: #d9534f;
   }
 `
 

@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { Landing, Error, Register } from './pages'
+import { Error, Login, Register } from './pages'
 import { ToastContainer } from 'react-toastify'
+import ProtectedRoute from './pages/ProtectedRoute'
 import 'react-toastify/dist/ReactToastify.css'
 import {
   Feeds,
@@ -17,7 +18,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<SharedLayout />}>
+        <Route
+          path='/'
+          element={
+            <ProtectedRoute>
+              <SharedLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Feeds />} />
           <Route path='resources' element={<Resources />} />
           <Route path='groups' element={<Groups />} />
@@ -26,7 +34,7 @@ function App() {
           <Route path='members' element={<Members />} />
           <Route path='fundings' element={<Fundings />} />
         </Route>
-        <Route path='landing' element={<Landing />} />
+        <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
         <Route path='*' element={<Error />} />
       </Routes>

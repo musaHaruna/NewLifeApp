@@ -1,16 +1,22 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.article`
-  width: 60%;
-  margin: 0.4rem auto;
-  height: 580px;
-  display: grid;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  height: 100vh;
+  margin: 1rem auto;
 
-  background-color: #fff;
-  overflow: hidden;
-
-  grid-template-columns: 1fr 1fr;
+  .register-login-container {
+    width: 60%;
+    height: 580px;
+    display: grid;
+    justify-content: center;
+    background-color: #fff;
+    overflow: hidden;
+    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+  }
 
   h5 {
     color: #2a4d93;

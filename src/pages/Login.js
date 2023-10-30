@@ -39,61 +39,66 @@ const Login = () => {
 
   return (
     <Wrapper>
-      <article className='hero-img-container'>
-        <img src={main} alt='hero-img' />
-      </article>
-      <article>
-        <section className='logo-container'>
-          <div className='logo'>
-            <img src={logo} alt='logo' />
-          </div>
-          <h5>NELIREF</h5>
-        </section>
-        <section>
-          <h2>Login</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <label>Email/Username</label>
-              <input
-                type='text'
-                placeholder='Email, username or phone number'
-                {...register('username')}
-              />
-              <p className='error'>{errors.username?.message}</p>
-            </div>
 
-            <div>
-              <label>Password</label>
-              <div className='password-field'>
+      
+      <article className='register-login-container'>
+        <article className='hero-img-container'>
+          <img src={main} alt='hero-img' />
+        </article>
+        <article>
+          <section className='logo-container'>
+            <div className='logo'>
+              <img src={logo} alt='logo' />
+            </div>
+            <h5>NELIREF</h5>
+          </section>
+          <section>
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <label>Email/Username</label>
                 <input
-                  type={passwordShown ? 'text' : 'password'}
-                  placeholder='*********'
-                  {...register('password')}
+                  type='text'
+                  placeholder='Email, username or phone number'
+                  {...register('username')}
                 />
-                <div className='margin-o' onClick={togglePasswordVisiblity}>
-                  {passwordShown ? (
-                    <AiOutlineEye className='icon' />
-                  ) : (
-                    <AiOutlineEyeInvisible className='icon' />
-                  )}
-                </div>
+                <p className='error'>{errors.username?.message}</p>
               </div>
-              <p className='error'>{errors.password?.message}</p>
-            </div>
-            <p>Forgort Password?</p>
-            <div className='btns'>
-              <button type='submit' className='login'>
-                Login <HiOutlineArrowNarrowRight />
-              </button>
-              <button className='google'>
-                <FcGoogle /> Continue with google
-              </button>
-            </div>
-            <p className='register-link'>
-              Don't have and account? <Link to={'/register'}>Get started</Link>
-            </p>
-          </form>
-        </section>
+
+              <div>
+                <label>Password</label>
+                <div className='password-field'>
+                  <input
+                    type={passwordShown ? 'text' : 'password'}
+                    placeholder='*********'
+                    {...register('password')}
+                  />
+                  <div className='margin-o' onClick={togglePasswordVisiblity}>
+                    {passwordShown ? (
+                      <AiOutlineEye className='icon' />
+                    ) : (
+                      <AiOutlineEyeInvisible className='icon' />
+                    )}
+                  </div>
+                </div>
+                <p className='error'>{errors.password?.message}</p>
+              </div>
+              <p>Forgort Password?</p>
+              <div className='btns'>
+                <button type='submit' className='login'>
+                  Login <HiOutlineArrowNarrowRight />
+                </button>
+                <button className='google'>
+                  <FcGoogle /> Continue with google
+                </button>
+              </div>
+              <p className='register-link'>
+                Don't have and account?{' '}
+                <Link to={'/register'}>Get started</Link>
+              </p>
+            </form>
+          </section>
+        </article>
       </article>
     </Wrapper>
   )

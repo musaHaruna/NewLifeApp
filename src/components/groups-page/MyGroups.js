@@ -1,6 +1,5 @@
 import group from '../../assets/images/group-img.png'
 import { MdOutlineCheckBox } from 'react-icons/md'
-import { MdOutlineAddBox } from 'react-icons/md'
 
 const MyGroups = () => {
   return (

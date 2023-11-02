@@ -8,6 +8,7 @@ const Wrapper = styled.nav`
   align-items: center;
   padding: 0.5rem 6rem;
   background-color: #fff;
+  position: relative;
 
   input {
     display: block;
@@ -22,7 +23,6 @@ const Wrapper = styled.nav`
     outline: none;
   }
 
- 
   .nav-icons {
     display: flex;
     align-items: center;
@@ -45,7 +45,63 @@ const Wrapper = styled.nav`
     font-size: 14px;
   }
 
- 
+  a {
+    color: #1e1e1e;
+    text-decoration: none;
+  }
+
+  .nav-dropdown {
+    position: absolute;
+    top: 4rem;
+    background-color: #fff;
+    padding: 0.5rem;
+  }
+
+  .profile-img {
+    width: 50px;
+    display: block;
+    padding: 0.3rem;
+    background-color: #2a4d93;
+    border-radius: 50%;
+  }
+
+  .nav-dropdown button {
+    display: block;
+    border: none;
+    font-size: 14px;
+    padding: 0.4rem;
+    margin: 0.2rem 0;
+    background-color: transparent;
+    color: #1e1e1e;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .nav-dropdown button:hover {
+    background-color: #2a4d93;
+    color: #fff;
+  }
+  .profile-content {
+    display: flex;
+    border-bottom: 1px solid #b7b4b4;
+    gap: 0.2rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-content div h5 {
+    font-weight: 600;
+    color: #1e1e1e;
+  }
+
+  .profile-content div p {
+    font-size: 12px;
+  }
+
+  .drop-down {
+    cursor: pointer;
+  }
 `
 
 export default Wrapper

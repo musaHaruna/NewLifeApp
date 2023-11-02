@@ -6,12 +6,27 @@ import { HiBars3 } from 'react-icons/hi2'
 import { CgAddR } from 'react-icons/cg'
 import AllGroups from '../../components/groups-page/AllGroups'
 import MyGroups from '../../components/groups-page/MyGroups'
+import GenericModal from '../../components/Modals/GenericModal'
 
 const Groups = () => {
   const [activeTab, setActiveTab] = useState('Photos')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
 
   return (
     <Wrapper>
+      <GenericModal isOpen={isModalOpen} onClose={closeModal}>
+        <h2>Modal Content</h2>
+        <p>This is a reusable modal component.</p>
+      </GenericModal>
+
       <article className='tab-content'>
         <h2>Groups</h2>
         <div className='photos-search'>
@@ -19,9 +34,9 @@ const Groups = () => {
             <CiSearch className='search-icon' />
             <input type='text' placeholder='Search groups' />
           </div>
-          <div className='btn-primary '>
+          <div className='btn-primary' onClick={openModal}>
             <CgAddR className='icon' />
-            <button>Create New Group</button>
+            <button onClick={openModal}>Create New Group</button>
           </div>
         </div>
       </article>

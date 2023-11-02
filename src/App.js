@@ -14,6 +14,9 @@ import {
   Fundings,
 } from './pages/dashboard'
 import Events from './pages/dashboard/Events'
+import Notifications from './pages/dashboard/Notifications'
+import Messages from './pages/dashboard/Messages'
+import Profile from './pages/dashboard/Profile'
 function App() {
   return (
     <BrowserRouter>
@@ -33,6 +36,9 @@ function App() {
           <Route path='events' element={<Events />} />
           <Route path='members' element={<Members />} />
           <Route path='fundings' element={<Fundings />} />
+          <Route path='notifications' element={<Notifications />} />
+          <Route path='messages' element={<Messages />} />
+          <Route path='profile' element={<Profile />} />
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />

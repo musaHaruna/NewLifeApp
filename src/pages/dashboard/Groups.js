@@ -6,7 +6,6 @@ import { HiBars3 } from 'react-icons/hi2'
 import { CgAddR } from 'react-icons/cg'
 import AllGroups from '../../components/groups-page/AllGroups'
 import MyGroups from '../../components/groups-page/MyGroups'
-import GenericModal from '../../components/Modals/GenericModal'
 import GroupsModal from '../../components/Modals/GroupsModal'
 
 const Groups = () => {

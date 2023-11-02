@@ -2,10 +2,22 @@ import Wrapper from '../../assets/wrappers/Forum'
 import { CiSearch } from 'react-icons/ci'
 import { CgAddR } from 'react-icons/cg'
 import MyForums from '../../components/forums-page/MyForums'
+import { useState } from 'react'
+import ForumModal from '../../components/Modals/ForumModal'
 
 const Forum = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
   return (
     <Wrapper>
+      <ForumModal isOpen={isModalOpen} onClose={closeModal} />
       <article className='tab-content'>
         <h2>Forums</h2>
         <div className='photos-search'>
@@ -15,7 +27,7 @@ const Forum = () => {
           </div>
           <div className='btn-primary '>
             <CgAddR className='icon' />
-            <button>Create New Forum</button>
+            <button onClick={openModal}>Create New Forum</button>
           </div>
         </div>
       </article>

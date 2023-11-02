@@ -7,6 +7,7 @@ import { CgAddR } from 'react-icons/cg'
 import AllGroups from '../../components/groups-page/AllGroups'
 import MyGroups from '../../components/groups-page/MyGroups'
 import GenericModal from '../../components/Modals/GenericModal'
+import GroupsModal from '../../components/Modals/GroupsModal'
 
 const Groups = () => {
   const [activeTab, setActiveTab] = useState('Photos')
@@ -22,10 +23,7 @@ const Groups = () => {
 
   return (
     <Wrapper>
-      <GenericModal isOpen={isModalOpen} onClose={closeModal}>
-        <h2>Modal Content</h2>
-        <p>This is a reusable modal component.</p>
-      </GenericModal>
+      <GroupsModal isOpen={isModalOpen} onClose={closeModal} />
 
       <article className='tab-content'>
         <h2>Groups</h2>

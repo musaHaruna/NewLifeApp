@@ -1,6 +1,4 @@
-import Wrapper from '../../assets/wrappers/GenericModal'
-
-const GenericModal = ({ isOpen, onClose, children }) => {
+const GenericModal = ({ isOpen, children }) => {
   const modalStyle = {
     display: isOpen ? 'block' : 'none',
     position: 'fixed',
@@ -13,22 +11,17 @@ const GenericModal = ({ isOpen, onClose, children }) => {
 
   const contentStyle = {
     backgroundColor: 'white',
-    width: '70%',
+    width: '50%',
     margin: 'auto',
-    marginTop: '10%',
-    padding: '20px',
+    marginTop: '5%',
+    overflow: 'hidden',
     borderRadius: '5px',
   }
 
   return (
-    <Wrapper>
-      <div style={modalStyle}>
-        <div style={contentStyle}>
-          {children}
-          <button onClick={onClose}>Close</button>
-        </div>
-      </div>
-    </Wrapper>
+    <article style={modalStyle}>
+      <div style={contentStyle}>{children}</div>
+    </article>
   )
 }
 

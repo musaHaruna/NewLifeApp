@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from 'react'
 import Wrapper from '../assets/wrappers/Navbar'
 import profile from '../assets/images/profile.png'
 import { BsBell } from 'react-icons/bs'
@@ -5,14 +6,36 @@ import { CiMail } from 'react-icons/ci'
 import { CiSearch } from 'react-icons/ci'
 import { SlArrowDown } from 'react-icons/sl'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
 
 const Navbar = () => {
   const [navOpen, setNavOpen] = useState(false)
+  const dropdownRef = useRef(null)
 
   const dropdownClick = () => {
     setNavOpen(!navOpen)
   }
+
+  const closeDropdown = () => {
+    setNavOpen(false)
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeDropdown()
+      }
+    }
+
+    if (navOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [navOpen])
 
   return (
     <Wrapper>
@@ -36,7 +59,7 @@ const Navbar = () => {
         </div>
 
         {navOpen ? (
-          <sections className='nav-dropdown'>
+          <section className='nav-dropdown' ref={dropdownRef}>
             <div className='profile-content'>
               <img className='profile-img' src={profile} alt='' />
               <div>
@@ -52,10 +75,11 @@ const Navbar = () => {
             <button>Help</button>
             <button>Language</button>
             <button>Sign out</button>
-          </sections>
+          </section>
         ) : null}
       </div>
     </Wrapper>
   )
 }
+
 export default Navbar

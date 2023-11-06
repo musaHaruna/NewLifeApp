@@ -108,8 +108,8 @@ const MyDetails = () => {
         <div className='details-headings'>
           <h4>Education</h4>
           <div className='icons'>
-            <BiEditAlt className='icon' onClick={openEditAboutModal} />
-            <CgAddR className='icon' />
+            <BiEditAlt className='icon' onClick={openEditEducationModal} />
+            <CgAddR className='icon' onClick={openEditEducationModal} />
           </div>
         </div>
         <div className='feeds-content'>

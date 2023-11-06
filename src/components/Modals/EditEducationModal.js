@@ -25,32 +25,61 @@ const EditEducationModal = ({ isOpen, onClose }) => {
         </div>
 
         <form>
-          <p className='note'>
-            Fill in details of the forum you want to create, also indicate if
-            you wan it private or public. Approval for the forum should take a
-            maximum of 72 hours
+          <p>
+            <span className='asterix'>*</span> indicates fields that are
+            compulsory.
           </p>
           <div>
-            <label>Title of forum</label>
-            <input type='text' placeholder='Enter title here' />
+            <label>
+              School <span className='asterix'>*</span>
+            </label>
+            <input type='text' placeholder='Enter name of school' />
             <p className='error'></p>
           </div>
           <div>
-            <label>Privacy</label>
-            <select>
-              <option value='Select privacy'>Select privacy</option>
-              <option value='Public'>Public</option>
-              <option value='Private'>Private</option>
-            </select>
+            <label>
+              Degree <span className='asterix'>*</span>
+            </label>
+            <input type='text' placeholder='Enter degree' />
+            <p className='error'></p>
           </div>
           <div>
-            <label>Description (What will the forum be about)</label>
-            <textarea type='text' placeholder='Enter title here' />
-            <p>0/2000</p>
+            <label>Course/Field of study</label>
+            <input type='text' placeholder='Course/Field of study' />
+            <p className='error'></p>
+          </div>
+
+          <div>
+            <label>
+              Start date <span className='asterix'>*</span>
+            </label>
+            <input type='date' placeholder='start date' />
+            <p className='error'></p>
+          </div>
+          <div>
+            <label>
+              End date (or expected graduation){' '}
+              <span className='asterix'>*</span>
+            </label>
+            <input type='text' placeholder='select date' />
+            <p className='error'></p>
+          </div>
+          <div>
+            <label>
+              Country <span className='asterix'>*</span>
+            </label>
+            <input type='text' placeholder='Enter Country' />
+            <p className='error'></p>
+          </div>
+          <div>
+            <label>
+              City <span className='asterix'>*</span>
+            </label>
+            <input type='text' placeholder='Enter city' />
             <p className='error'></p>
           </div>
           <div className='btn'>
-            <button onClick={openSuccessModal}>Create Group</button>
+            <button onClick={openSuccessModal}>Save</button>
           </div>
         </form>
         {isSuccessModalOpen ? (

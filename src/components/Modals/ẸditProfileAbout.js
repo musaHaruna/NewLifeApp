@@ -25,24 +25,11 @@ const EditProfileAbout = ({ isOpen, onClose }) => {
         </div>
 
         <form>
-          <p className='note'>
-            Fill in details of the forum you want to create, also indicate if
-            you wan it private or public. Approval for the forum should take a
-            maximum of 72 hours
+          <p>
+            Write a brief about yourself, this allows those who would love to
+            connect to you, know you more. Your brief can include your research
+            interests, hobbies, and top skills.
           </p>
-          <div>
-            <label>Title of forum</label>
-            <input type='text' placeholder='Enter title here' />
-            <p className='error'></p>
-          </div>
-          <div>
-            <label>Privacy</label>
-            <select>
-              <option value='Select privacy'>Select privacy</option>
-              <option value='Public'>Public</option>
-              <option value='Private'>Private</option>
-            </select>
-          </div>
           <div>
             <label>Description (What will the forum be about)</label>
             <textarea type='text' placeholder='Enter title here' />
@@ -50,7 +37,7 @@ const EditProfileAbout = ({ isOpen, onClose }) => {
             <p className='error'></p>
           </div>
           <div className='btn'>
-            <button onClick={openSuccessModal}>Create Group</button>
+            <button onClick={openSuccessModal}>Save</button>
           </div>
         </form>
         {isSuccessModalOpen ? (

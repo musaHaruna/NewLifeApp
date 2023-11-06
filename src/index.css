@@ -84,3 +84,19 @@ p {
   font-size: 16px;
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #b7b4b4;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2a4d93;
+  border-radius: 5px;
+}

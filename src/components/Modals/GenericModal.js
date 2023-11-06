@@ -13,8 +13,9 @@ const GenericModal = ({ isOpen, children }) => {
     backgroundColor: 'white',
     width: '50%',
     margin: 'auto',
-    marginTop: '5%',
-    overflow: 'hidden',
+    marginTop: '3%',
+    height: '500px',
+    overflowY: 'scroll',
     borderRadius: '5px',
   }
 

@@ -264,6 +264,14 @@ const Wrapper = styled.main`
     display: block;
     color: #2a4d93;
   }
+
+  .asterix {
+    color: red;
+  }
+
+  label {
+   color: #b7b4b4;
+  }
 `
 
 export default Wrapper

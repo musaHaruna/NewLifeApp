@@ -55,7 +55,9 @@ const Wrapper = styled.article`
   .logo {
     width: 20%;
   }
-
+.reg-input{
+  margin: .5rem 0
+}
   label {
     font-size: 16px;
     color: #2a4d93;
@@ -93,15 +95,12 @@ const Wrapper = styled.article`
   }
   form {
     padding-right: 1rem;
-    padding-bottom: 1rem;
+    // padding-bottom: 1rem;
   }
 
   p {
     font-size: 14px;
     color: #2a4d93;
-  }
-  form div {
-    margin: 1.2rem 0;
   }
 
   .btns {
@@ -158,6 +157,10 @@ const Wrapper = styled.article`
     border-radius: 5px;
     margin: 0;
     padding-right: 0.5rem;
+  }
+  .input-field {
+    border: 1.2px solid #b7b4b4;
+    border-radius: 5px;
   }
 
   .password-field:hover {

@@ -1,12 +1,12 @@
 import { BiEditAlt } from 'react-icons/bi'
 import { CgAddR } from 'react-icons/cg'
 import geogiaTech from '../../assets/images/georgia-tech.png'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import EditProfileDetailsModal from '../Modals/EditProfileDetailsModal'
 import EditEducationModal from '../Modals/EditEducationModal'
 import EditProfileAbout from '../Modals/ẸditProfileAbout'
 
-const MyDetails = () => {
+const MyDetails = ({ user }) => {
   const [isPersonalDetailsModalOpen, setIsPersonalDetailsModalOpen] =
     useState(false)
   const [isEditAboutModalOpen, setIsEditAboutModalOpen] = useState(false)
@@ -34,6 +34,41 @@ const MyDetails = () => {
   const closeEditEducationModal = () => {
     setIsEditEducationModalOpen(false)
   }
+
+  function splitFullName(fullName) {
+    const parts = fullName.split(' ');
+
+    let firstName = parts[0];
+    let middleName = '';
+    let lastName = '';
+
+    if (parts.length === 2) {
+      // First and Last name only
+      lastName = parts[1];
+    } else if (parts.length > 2) {
+      // First, Middle, and Last name
+      middleName = parts.slice(1, -1).join(' '); // Join middle name if there are multiple words
+      lastName = parts[parts.length - 1];
+    }
+
+    return {
+      firstName,
+      middleName,
+      lastName,
+    };
+  }
+
+  const { firstName, middleName, lastName } = splitFullName(user.full_name);
+
+  const renderDescriptionWithLineBreaks = (description) => {
+    return description?.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   return (
     <article className='bg-container'>
       <EditProfileDetailsModal
@@ -63,12 +98,12 @@ const MyDetails = () => {
             <p>Location</p>
           </div>
           <div className='info'>
-            <p>Luper</p>
-            <p>Tsenum</p>
-            <p>Joseph</p>
-            <p>@luperjoe360</p>
-            <p>2nd July 1970</p>
-            <p>United States of America, Georgia</p>
+            <p>{firstName}</p>
+            <p>{middleName}</p>
+            <p>{lastName}</p>
+            <p>@{user?.user_name}</p>
+            <p>{new Date(user?.DOB).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p>{`${user?.country || "Country"}, ${user?.state || "City"}`}</p>
           </div>
         </section>
       </section>
@@ -79,28 +114,7 @@ const MyDetails = () => {
         </div>
         <div>
           <p>
-            Hi there! My name is Joseph Luper and I am a passionate professional
-            with a talent for problem-solving and a thirst for knowledge. Over
-            the years, I've developed a diverse skillset that allows me to adapt
-            to different situations and industries, always seeking to deliver
-            high-quality results.
-          </p>
-          <p>
-            I have experience in project management, business analysis, and
-            product design and development. I've worked in startups,
-            corporations, and non-profit organizations, in fields such as
-            finance, healthcare, and education. My strengths include critical
-            thinking, communication, and collaboration.
-          </p>
-          <p>
-            I'm always looking for new challenges and opportunities to make a
-            positive impact.In my free time, I enjoy traveling, reading, and
-            playing sports. I'm also involved in volunteer work and mentoring
-            programs, as I believe in giving back to my community and helping
-            others grow.If you're looking for a dedicated professional who can
-            bring value to your team and help you achieve your goals, don't
-            hesitate to reach out. Let's connect and see how we can work
-            together!
+            {renderDescriptionWithLineBreaks(user?.about)}
           </p>
         </div>
       </section>

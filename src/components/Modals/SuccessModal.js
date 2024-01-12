@@ -1,7 +1,7 @@
 import React from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 
-const SuccessModal = ({ onClose }) => {
+const SuccessModal = ({ onClose, message }) => {
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -26,8 +26,7 @@ const SuccessModal = ({ onClose }) => {
       <div style={contentStyle}>
         <h3>Succes!</h3>
         <p>
-          You have sent a request to create a forum. A response would be sent to
-          you within 72 hours
+          {message}
         </p>
 
         <button onClick={onClose}>Continue</button>

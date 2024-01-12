@@ -38,7 +38,7 @@ const Wrapper = styled.article`
     width: 100%;
     padding: 0.5rem;
     font-size: 14px;
-    color: #b7b4b4;
+    // color: #b7b4b4;
     border: 1.2px solid #b7b4b4;
     border-radius: 4px;
   }
@@ -56,10 +56,10 @@ const Wrapper = styled.article`
   textarea {
     display: block;
     width: 100%;
-    height: 100px;
+    min-height: 100px;
     padding: 0.5rem;
     font-size: 14px;
-    color: #b7b4b4;
+    // color: #b7b4b4;
     border: 1.2px solid #b7b4b4;
     border-radius: 4px;
     resize: none;
@@ -83,6 +83,9 @@ const Wrapper = styled.article`
     border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
+  }
+  .error {
+    color: #d9534f;
   }
 `
 

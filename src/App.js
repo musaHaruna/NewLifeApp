@@ -17,6 +17,7 @@ import Events from './pages/dashboard/Events'
 import Notifications from './pages/dashboard/Notifications'
 import Messages from './pages/dashboard/Messages'
 import Profile from './pages/dashboard/Profile'
+
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ function App() {
             </ProtectedRoute>
           }
         >
+
           <Route index element={<Feeds />} />
           <Route path='resources' element={<Resources />} />
           <Route path='groups' element={<Groups />} />

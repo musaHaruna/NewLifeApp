@@ -5,9 +5,15 @@ import { BsBell } from 'react-icons/bs'
 import { CiMail } from 'react-icons/ci'
 import { CiSearch } from 'react-icons/ci'
 import { SlArrowDown } from 'react-icons/sl'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../redux/reducers/userReducer";
+import { clearToken } from "../redux/reducers/jwtReducer";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const [navOpen, setNavOpen] = useState(false)
   const dropdownRef = useRef(null)
 
@@ -37,6 +43,12 @@ const Navbar = () => {
     }
   }, [navOpen])
 
+  const logOut = () => {
+    dispatch(logoutSuccess());
+    dispatch(clearToken());
+    navigate("/login", { replace: true })
+  }
+
   return (
     <Wrapper>
       <div className='search'>
@@ -52,7 +64,7 @@ const Navbar = () => {
         </Link>
 
         <div className='profile-info'>
-          <img src={profile} width={34} alt='profile' className='profile' />
+          <img src={user?.photo || profile} width={34} alt='profile' className='profile' />
           <div>
             <SlArrowDown className='drop-down' onClick={dropdownClick} />
           </div>
@@ -61,10 +73,10 @@ const Navbar = () => {
         {navOpen ? (
           <section className='nav-dropdown' ref={dropdownRef}>
             <div className='profile-content'>
-              <img className='profile-img' src={profile} alt='' />
+              <img className='profile-img' src={user?.photo || profile} alt='' />
               <div>
-                <h5>Luper Joseph</h5>
-                <p>@luperjoe360</p>
+                <h5>{user?.full_name}</h5>
+                <p>@{user?.user_name}</p>
               </div>
             </div>
 
@@ -74,7 +86,7 @@ const Navbar = () => {
 
             <button>Help</button>
             <button>Language</button>
-            <button>Sign out</button>
+            <button onClick={logOut}>Sign out</button>
           </section>
         ) : null}
       </div>

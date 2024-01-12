@@ -64,12 +64,20 @@ const Wrapper = styled.main`
   }
 
   .profile-image {
-    padding: 1.5rem;
+    width:8rem;
+    height:8rem;
     color: #fff;
     border: 2px solid #2a4d93;
     background-color: #fff;
     border-radius: 50%;
     margin-top: -4rem;
+  }
+
+  .profile-image img{
+   width:100%;
+   height:100%;
+   object-fit: cover;
+   border-radius:50%;
   }
 
   .photos-search {

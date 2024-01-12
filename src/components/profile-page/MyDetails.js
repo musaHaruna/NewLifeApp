@@ -99,8 +99,8 @@ const MyDetails = ({ user }) => {
           </div>
           <div className='info'>
             <p>{firstName}</p>
-            <p>{middleName}</p>
-            <p>{lastName}</p>
+            <p>{middleName || "-"}</p>
+            <p>{lastName || "-"}</p>
             <p>@{user?.user_name}</p>
             <p>{new Date(user?.DOB).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p>{`${user?.country || "Country"}, ${user?.state || "City"}`}</p>

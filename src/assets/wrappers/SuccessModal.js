@@ -22,6 +22,22 @@ const Wrapper = styled.article`
     margin: 0.5rem auto;
     cursor: pointer;
   }
+
+  .close-modal {
+    font-size: 28px;
+    display: flex;
+    justify-content: flex-end;
+    color: #141b34;
+    cursor: pointer;
+  }
+  .p-color {
+    color: #205090;
+  }
+
+  .new-pword {
+    color: #fff;
+    text-decoration: none;
+  }
 `
 
 export default Wrapper

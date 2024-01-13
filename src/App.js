@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { Error, Login, Register } from './pages'
+import { Error, Login, NewPassword, Register, ResetPassword } from './pages'
 import { ToastContainer } from 'react-toastify'
 import ProtectedRoute from './pages/ProtectedRoute'
 import 'react-toastify/dist/ReactToastify.css'
@@ -30,7 +30,6 @@ function App() {
             </ProtectedRoute>
           }
         >
-
           <Route index element={<Feeds />} />
           <Route path='resources' element={<Resources />} />
           <Route path='groups' element={<Groups />} />
@@ -44,6 +43,8 @@ function App() {
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
+        <Route path='reset-password' element={<ResetPassword />} />
+        <Route path='new-password' element={<NewPassword />} />
         <Route path='*' element={<Error />} />
       </Routes>
       <ToastContainer position='top-center' />

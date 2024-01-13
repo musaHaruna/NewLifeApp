@@ -17,6 +17,19 @@ const Wrapper = styled.article`
     gap: 1.5rem;
     grid-template-columns: 1fr 1fr;
   }
+  .register-login-container.new-password {
+    width: 75%;
+    height: 400px;
+  }
+
+   .register-login-container.new-password article img {
+    width: 90%;
+    height: 60%;
+   }
+
+   .new-pword-label {
+    margin: 1rem auto;
+   }
 
   h5 {
     color: #2a4d93;
@@ -55,9 +68,9 @@ const Wrapper = styled.article`
   .logo {
     width: 20%;
   }
-.reg-input{
-  margin: .5rem 0
-}
+  .reg-input {
+    margin: 0.5rem 0;
+  }
   label {
     font-size: 16px;
     color: #2a4d93;

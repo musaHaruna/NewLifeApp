@@ -2,21 +2,29 @@ import React from 'react'
 import GenericModal from './GenericModal'
 import Wrapper from '../../assets/wrappers/GroupsModal'
 import { CgCloseR } from 'react-icons/cg'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import SuccessModal from './SuccessModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import userService from '../../services/api/user'
-import { RotatingLines } from 'react-loader-spinner'
 import { loginSuccess } from '../../redux/reducers/userReducer'
+import { RotatingLines } from 'react-loader-spinner'
 
-const EditEducationModal = ({ isOpen, onClose, id, education }) => {
+const AddEducationModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
-
-  const [formData, setFormData] = useState({})
+  const { education, setEducation } = useState({})
+  const [formData, setFormData] = useState({
+    school: '',
+    degree: '',
+    course: '',
+    start: '',
+    end: '',
+    country: '',
+    city: '',
+  })
 
   const [formErrors, setFormErrors] = useState({})
 
@@ -27,22 +35,6 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
       [name]: value,
     })
   }
-
-  useEffect(() => {
-    // Creating educationData from the education prop
-    const educationData = {
-      school: education?.school,
-      degree: education?.degree,
-      course: education?.course,
-      start: education?.start,
-      end: education?.end,
-      country: education?.country,
-      city: education?.city,
-    }
-
-    // Set the form data state
-    setFormData(educationData)
-  }, [isOpen])
 
   const validateForm = () => {
     const errors = {}
@@ -57,12 +49,12 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
   }
 
   const mutation = useMutation({
-    mutationFn: (params, data) => userService.updateEducation(id, formData),
+    mutationFn: userService.addEducation,
     onSuccess: (data) => {
+      // Handle successful login
       dispatch(loginSuccess(data?.user))
       setIsSuccessModalOpen(true)
-
-      toast.success('Education update successfully')
+      toast.success('Education Added')
     },
     onError: (error) => {
       // Handle login error
@@ -98,7 +90,7 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
     <GenericModal isOpen={isOpen} onClose={onClose}>
       <Wrapper>
         <div className='heading'>
-          <h3>Edit Education</h3>
+          <h3>Add Education</h3>
           <CgCloseR onClick={onClose} className='icon' />
         </div>
 
@@ -114,11 +106,10 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
             <input
               name='school'
               type='text'
-              value={formData?.school}
               placeholder='Enter name of school'
               onChange={handleInputChange}
             />
-            <p className='error'>{formErrors?.school}</p>
+            <p className='error'>{formErrors.school}</p>
           </div>
           <div>
             <label>
@@ -126,18 +117,16 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
             </label>
             <input
               name='degree'
-              value={formData?.degree}
               type='text'
               placeholder='Enter degree'
               onChange={handleInputChange}
             />
-            <p className='error'>{formErrors?.degree}</p>
+            <p className='error'>{formErrors.degree}</p>
           </div>
           <div>
             <label>Course/Field of study</label>
             <input
               type='text'
-              value={formData?.course}
               name='course'
               placeholder='Course/Field of study'
               onChange={handleInputChange}
@@ -152,7 +141,6 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
             <input
               type='date'
               name='start'
-              value={formData?.start}
               placeholder='start date'
               onChange={handleInputChange}
             />
@@ -166,7 +154,6 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
             <input
               type='date'
               name='end'
-              value={formData?.end}
               placeholder='select date'
               onChange={handleInputChange}
             />
@@ -179,7 +166,6 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
             <input
               type='text'
               name='country'
-              value={formData?.country}
               placeholder='Enter Country'
               onChange={handleInputChange}
             />
@@ -193,7 +179,6 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
               type='text'
               name='city'
               placeholder='Enter city'
-              value={formData?.city}
               onChange={handleInputChange}
             />
             <p className='error'>{formErrors.city}</p>
@@ -221,4 +206,4 @@ const EditEducationModal = ({ isOpen, onClose, id, education }) => {
   )
 }
 
-export default EditEducationModal
+export default AddEducationModal

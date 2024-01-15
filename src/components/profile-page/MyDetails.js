@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import EditProfileDetailsModal from '../Modals/EditProfileDetailsModal'
 import EditEducationModal from '../Modals/EditEducationModal'
 import EditProfileAbout from '../Modals/ẸditProfileAbout'
+import AddEducationModal from '../Modals/AddEducationModal'
 
 const MyDetails = ({ user }) => {
   const [isPersonalDetailsModalOpen, setIsPersonalDetailsModalOpen] =
@@ -12,6 +13,8 @@ const MyDetails = ({ user }) => {
   const [isEditAboutModalOpen, setIsEditAboutModalOpen] = useState(false)
   const [isEditEducationModalOpen, setIsEditEducationModalOpen] =
     useState(false)
+  const [isAddEducationModalOpen, setIsAddEducationModalOpen] = useState(false)
+  const [selectedEducationIndex, setSelectedEducationIndex] = useState(null)
 
   const openPersonalDetailsModal = () => {
     setIsPersonalDetailsModalOpen(true)
@@ -27,38 +30,47 @@ const MyDetails = ({ user }) => {
   const closeEditAboutModal = () => {
     setIsEditAboutModalOpen(false)
   }
-  const openEditEducationModal = () => {
+  const openEditEducationModal = (index) => {
+    setSelectedEducationIndex(index)
     setIsEditEducationModalOpen(true)
   }
 
   const closeEditEducationModal = () => {
+    setSelectedEducationIndex(null)
     setIsEditEducationModalOpen(false)
+  }
+  const openAddEducationModal = () => {
+    setIsAddEducationModalOpen(true)
+  }
+
+  const closeAddEducationModal = () => {
+    setIsAddEducationModalOpen(false)
   }
 
   function splitFullName(fullName) {
-    const parts = fullName.split(' ');
+    const parts = fullName.split(' ')
 
-    let firstName = parts[0];
-    let middleName = '';
-    let lastName = '';
+    let firstName = parts[0]
+    let middleName = ''
+    let lastName = ''
 
     if (parts.length === 2) {
       // First and Last name only
-      lastName = parts[1];
+      lastName = parts[1]
     } else if (parts.length > 2) {
       // First, Middle, and Last name
-      middleName = parts.slice(1, -1).join(' '); // Join middle name if there are multiple words
-      lastName = parts[parts.length - 1];
+      middleName = parts.slice(1, -1).join(' ') // Join middle name if there are multiple words
+      lastName = parts[parts.length - 1]
     }
 
     return {
       firstName,
       middleName,
       lastName,
-    };
+    }
   }
 
-  const { firstName, middleName, lastName } = splitFullName(user.full_name);
+  const { firstName, middleName, lastName } = splitFullName(user.full_name)
 
   const renderDescriptionWithLineBreaks = (description) => {
     return description?.split('\n').map((line, index) => (
@@ -66,8 +78,8 @@ const MyDetails = ({ user }) => {
         {line}
         <br />
       </React.Fragment>
-    ));
-  };
+    ))
+  }
 
   return (
     <article className='bg-container'>
@@ -75,10 +87,11 @@ const MyDetails = ({ user }) => {
         isOpen={isPersonalDetailsModalOpen}
         onClose={closePersonalDetailsModal}
       />
-      <EditEducationModal
-        isOpen={isEditEducationModalOpen}
-        onClose={closeEditEducationModal}
+      <AddEducationModal
+        isOpen={isAddEducationModalOpen}
+        onClose={closeAddEducationModal}
       />
+
       <EditProfileAbout
         isOpen={isEditAboutModalOpen}
         onClose={closeEditAboutModal}
@@ -102,8 +115,14 @@ const MyDetails = ({ user }) => {
             <p>{middleName}</p>
             <p>{lastName}</p>
             <p>@{user?.user_name}</p>
-            <p>{new Date(user?.DOB).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            <p>{`${user?.country || "Country"}, ${user?.state || "City"}`}</p>
+            <p>
+              {new Date(user?.DOB).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </p>
+            <p>{`${user?.country || 'Country'}, ${user?.state || 'City'}`}</p>
           </div>
         </section>
       </section>
@@ -113,30 +132,46 @@ const MyDetails = ({ user }) => {
           <BiEditAlt className='icon' onClick={openEditAboutModal} />
         </div>
         <div>
-          <p>
-            {renderDescriptionWithLineBreaks(user?.about)}
-          </p>
+          <p>{renderDescriptionWithLineBreaks(user?.about)}</p>
         </div>
       </section>
       <section>
         <div className='details-headings'>
           <h4>Education</h4>
           <div className='icons'>
-            <BiEditAlt className='icon' onClick={openEditEducationModal} />
-            <CgAddR className='icon' onClick={openEditEducationModal} />
+            <CgAddR className='icon' onClick={openAddEducationModal} />
           </div>
         </div>
-        <div className='feeds-content'>
-          <div>
-            <img src={geogiaTech} />
-          </div>
+        {user?.education?.map((education, index) => (
+          <div className='edit-education' key={index}>
+            <EditEducationModal
+              isOpen={isEditEducationModalOpen}
+              onClose={closeEditEducationModal}
+              id={user?.education[selectedEducationIndex]?._id}
+              education={user?.education[selectedEducationIndex]}
+            />
+            <div className='feeds-content' key={index}>
+              <div>
+                <img src={geogiaTech} alt='Georgia Tech Logo' />
+              </div>
 
-          <div>
-            <h5>Georgia Tech</h5>
-            <p>Doctor of Geonomic</p>
-            <p className='date'>July 2010 - July 2023</p>
+              <div>
+                <h5>{education.school}</h5>
+                <p>
+                  {education.degree} in {education.course}
+                </p>
+                <p className='date'>{`${education.start} - ${education.end}`}</p>
+              </div>
+            </div>
+
+            <div>
+              <BiEditAlt
+                className='icon'
+                onClick={() => openEditEducationModal(index)}
+              />
+            </div>
           </div>
-        </div>
+        ))}
       </section>
     </article>
   )

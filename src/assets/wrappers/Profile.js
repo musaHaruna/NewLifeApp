@@ -64,8 +64,8 @@ const Wrapper = styled.main`
   }
 
   .profile-image {
-    width:8rem;
-    height:8rem;
+    width: 8rem;
+    height: 8rem;
     color: #fff;
     border: 2px solid #2a4d93;
     background-color: #fff;
@@ -73,11 +73,11 @@ const Wrapper = styled.main`
     margin-top: -4rem;
   }
 
-  .profile-image img{
-   width:100%;
-   height:100%;
-   object-fit: cover;
-   border-radius:50%;
+  .profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
   }
 
   .photos-search {
@@ -278,7 +278,13 @@ const Wrapper = styled.main`
   }
 
   label {
-   color: #b7b4b4;
+    color: #b7b4b4;
+  }
+
+  .edit-education {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
   }
 `
 

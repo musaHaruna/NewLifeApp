@@ -62,11 +62,11 @@ class AuthOBJ {
   }
 
   //auths password reset otp
-  passwordResetOTP = async (data) => {
+  newPassword = async (data) => {
     try {
       //check if data is empty
       if (data) {
-        const response = await api.post('api/auth/verify-token', data)
+        const response = await api.put('/api/users/password', data)
         console.log(response)
         //store res data
       } else {

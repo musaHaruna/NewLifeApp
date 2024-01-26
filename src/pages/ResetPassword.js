@@ -32,6 +32,8 @@ const ResetPassword = () => {
     const urlParams = new URLSearchParams(window.location.search)
     const resetToken = urlParams.get('t')
     console.log(resetToken)
+    const newUrl = window.location.origin + window.location.pathname
+    window.history.replaceState({}, document.title, newUrl)
   }, [])
 
   const schema = yup.object().shape({

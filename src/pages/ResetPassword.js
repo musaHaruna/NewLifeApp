@@ -12,9 +12,12 @@ import { RotatingLines } from 'react-loader-spinner'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import EmailConfirmationModal from '../components/Modals/EmailConfirmationModal'
+import { useDispatch } from 'react-redux'
+import { setToken } from '../redux/reducers/jwtReducer'
 
 const ResetPassword = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
 
@@ -31,6 +34,7 @@ const ResetPassword = () => {
     // Extract parameters from the URL
     const urlParams = new URLSearchParams(window.location.search)
     const resetToken = urlParams.get('t')
+    dispatch(setToken(resetToken))
     console.log(resetToken)
     const newUrl = window.location.origin + window.location.pathname
     window.history.replaceState({}, document.title, newUrl)

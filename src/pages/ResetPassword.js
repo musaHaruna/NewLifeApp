@@ -34,10 +34,13 @@ const ResetPassword = () => {
     // Extract parameters from the URL
     const urlParams = new URLSearchParams(window.location.search)
     const resetToken = urlParams.get('t')
-    dispatch(setToken(resetToken))
+    if (resetToken) {
+      dispatch(setToken(resetToken))
+      navigate('/new-password', { replace: true })
+      const newUrl = window.location.origin + window.location.pathname
+      window.history.replaceState({}, document.title, newUrl)
+    }
     console.log(resetToken)
-    const newUrl = window.location.origin + window.location.pathname
-    window.history.replaceState({}, document.title, newUrl)
   }, [])
 
   const schema = yup.object().shape({

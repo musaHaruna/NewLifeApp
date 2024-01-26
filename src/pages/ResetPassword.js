@@ -2,7 +2,7 @@ import main from '../assets/images/main.png'
 import logo from '../assets/images/Logo.png'
 import Wrapper from '../assets/wrappers/RegisterPage'
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -26,6 +26,13 @@ const ResetPassword = () => {
     setIsConfirmModalOpen(false)
     // onClose()
   }
+
+  useEffect(() => {
+    // Extract parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const resetToken = urlParams.get('t')
+    console.log(resetToken)
+  }, [])
 
   const schema = yup.object().shape({
     email: yup.string().required('Enter a valid email'),

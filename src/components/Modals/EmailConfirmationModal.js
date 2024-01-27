@@ -70,9 +70,7 @@ const EmailConfirmationModal = ({ onClose, action, isLoading }) => {
                 width={20}
               />
             ) : (
-              <Link className='new-pword' to={'/new-password'}>
-                Continue
-              </Link>
+              <Link className='new-pword'>Continue</Link>
             )}
           </button>
         </div>

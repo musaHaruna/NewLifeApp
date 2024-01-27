@@ -61,12 +61,37 @@ class AuthOBJ {
     }
   }
 
+  // confirm token
+  confirmToken = async (data) => {
+    try {
+      //check if data is empty
+      if (data) {
+        const response = await api.post('/api/users/verify-token', data, {
+          headers: {
+            Authorization: `Bearer ${data.auth_token}`,
+          },
+        })
+        console.log(response)
+        return response
+        //store res data
+      } else {
+        throw new Error('please fill in the fields')
+      }
+    } catch (err) {
+      throw err?.response?.data
+    }
+  }
+
   //auths password reset otp
   newPassword = async (data) => {
     try {
       //check if data is empty
       if (data) {
-        const response = await api.put('/api/users/password', data)
+        const response = await api.put('/api/users/password', data, {
+          headers: {
+            Authorization: `Bearer ${data.auth_token}`,
+          },
+        })
         console.log(response)
         //store res data
       } else {

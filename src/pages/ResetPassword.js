@@ -18,6 +18,7 @@ import { setToken } from '../redux/reducers/jwtReducer'
 const ResetPassword = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [open, setOpen] = useState(false)
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
 
@@ -34,13 +35,14 @@ const ResetPassword = () => {
     // Extract parameters from the URL
     const urlParams = new URLSearchParams(window.location.search)
     const resetToken = urlParams.get('t')
-    if (resetToken) {
+    const queryCode = urlParams.get('c')
+
+    if (resetToken && queryCode) {
+      mutate({ auth_token: resetToken, token: queryCode })
       dispatch(setToken(resetToken))
-      navigate('/new-password', { replace: true })
-      const newUrl = window.location.origin + window.location.pathname
-      window.history.replaceState({}, document.title, newUrl)
+    } else {
+      setOpen(true)
     }
-    console.log(resetToken)
   }, [])
 
   const schema = yup.object().shape({
@@ -70,6 +72,23 @@ const ResetPassword = () => {
       toast.error(error?.message)
     },
   })
+  const { mutate, isPending } = useMutation({
+    mutationFn: auth.confirmToken,
+    onSuccess: (data) => {
+      // Handle successful login
+      navigate('/new-password', { replace: true })
+
+      // const newUrl = window.location.origin + window.location.pathname
+      // window.history.replaceState({}, document.title, newUrl)
+    },
+    onError: (error) => {
+      // Handle login error
+      navigate('/login', { replace: true })
+
+      toast.error(error)
+      toast.error(error?.message)
+    },
+  })
 
   const onSubmit = (data) => {
     // Call the mutate function to trigger the login mutation
@@ -80,56 +99,58 @@ const ResetPassword = () => {
   return (
     <>
       <Wrapper>
-        <article className='register-login-container'>
-          <article className='hero-img-container'>
-            <img src={main} alt='hero-img' />
-          </article>
-          <article>
-            <section className='logo-container'>
-              <div className='logo'>
-                <img src={logo} alt='logo' />
-              </div>
-              <h5>NELIREF</h5>
-            </section>
-            <section>
-              <h2>Reset Password</h2>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='reg-input'>
-                  <label>Email</label>
-                  <div className='input-field'>
-                    <input
-                      type='text'
-                      placeholder='Email, username, or phone number'
-                      {...register('email')}
-                    />
-                  </div>
-                  <p className='error'>{errors.email?.message}</p>
+        {open && (
+          <article className='register-login-container'>
+            <article className='hero-img-container'>
+              <img src={main} alt='hero-img' />
+            </article>
+            <article>
+              <section className='logo-container'>
+                <div className='logo'>
+                  <img src={logo} alt='logo' />
                 </div>
-
-                <div className='btns'>
-                  <button
-                    type='submit'
-                    className='login'
-                    disabled={mutation?.isPending}
-                  >
-                    {mutation.isPending ? (
-                      <RotatingLines
-                        type='Oval'
-                        style={{ color: '#FFF' }}
-                        height={20}
-                        width={20}
+                <h5>NELIREF</h5>
+              </section>
+              <section>
+                <h2>Reset Password</h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className='reg-input'>
+                    <label>Email</label>
+                    <div className='input-field'>
+                      <input
+                        type='text'
+                        placeholder='Email, username, or phone number'
+                        {...register('email')}
                       />
-                    ) : (
-                      <>
-                        Send <HiOutlineArrowNarrowRight />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            </section>
+                    </div>
+                    <p className='error'>{errors.email?.message}</p>
+                  </div>
+
+                  <div className='btns'>
+                    <button
+                      type='submit'
+                      className='login'
+                      disabled={mutation?.isPending}
+                    >
+                      {mutation.isPending ? (
+                        <RotatingLines
+                          type='Oval'
+                          style={{ color: '#FFF' }}
+                          height={20}
+                          width={20}
+                        />
+                      ) : (
+                        <>
+                          Send <HiOutlineArrowNarrowRight />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </section>
+            </article>
           </article>
-        </article>
+        )}
       </Wrapper>
       {isConfirmModalOpen && (
         <EmailConfirmationModal onClose={closeSuccessModal} />

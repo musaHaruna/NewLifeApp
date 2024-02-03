@@ -1,31 +1,25 @@
 import main from '../assets/images/main.png'
 import logo from '../assets/images/Logo.png'
 import Wrapper from '../assets/wrappers/RegisterPage'
-import { Link } from 'react-router-dom'
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi'
-import { FcGoogle } from 'react-icons/fc'
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useMutation } from '@tanstack/react-query'
-import { RotatingLines } from 'react-loader-spinner'
 import auth from '../services/api/auth'
+import { RotatingLines } from 'react-loader-spinner'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import EmailConfirmationModal from '../components/Modals/EmailConfirmationModal'
 import { useDispatch } from 'react-redux'
 import { setToken } from '../redux/reducers/jwtReducer'
-import { loginSuccess } from '../redux/reducers/userReducer'
-import GoogleLoginButton from '../components/onboarding-page/GoogleLoginButton'
-import CompleteProfile from './CompleteProfile'
-import EmailConfirmationModal from '../components/Modals/EmailConfirmationModal'
 
 const ResetPassword = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [passwordShown, setPasswordShown] = useState(false)
-  const [showProfile, setShowProfile] = useState(null)
+  const [open, setOpen] = useState(false)
+
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
 
   const openConfirmModal = () => {
@@ -37,12 +31,22 @@ const ResetPassword = () => {
     // onClose()
   }
 
-  const togglePasswordVisibility = () => {
-    setPasswordShown((prev) => !prev)
-  }
+  useEffect(() => {
+    // Extract parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search)
+    const resetToken = urlParams.get('t')
+    const queryCode = urlParams.get('c')
+
+    if (resetToken && queryCode) {
+      mutate({ auth_token: resetToken, token: queryCode })
+      dispatch(setToken(resetToken))
+    } else {
+      setOpen(true)
+    }
+  }, [])
 
   const schema = yup.object().shape({
-    email: yup.string().required('Your Full Name is Required!'),
+    email: yup.string().required('Enter a valid email'),
   })
 
   const {
@@ -53,55 +57,100 @@ const ResetPassword = () => {
     resolver: yupResolver(schema),
   })
 
+  const mutation = useMutation({
+    mutationFn: auth.resetPassword,
+    onSuccess: (data) => {
+      // Handle successful login
+      openConfirmModal()
+      console.log(data.data.message)
+    },
+    onError: (error) => {
+      // Handle login error
+      console.error('error:', error)
+
+      toast.error(error)
+      toast.error(error?.message)
+    },
+  })
+  const { mutate, isPending } = useMutation({
+    mutationFn: auth.confirmToken,
+    onSuccess: (data) => {
+      // Handle successful login
+      navigate('/new-password', { replace: true })
+
+      // const newUrl = window.location.origin + window.location.pathname
+      // window.history.replaceState({}, document.title, newUrl)
+    },
+    onError: (error) => {
+      // Handle login error
+      navigate('/login', { replace: true })
+
+      toast.error(error)
+      toast.error(error?.message)
+    },
+  })
+
   const onSubmit = (data) => {
     // Call the mutate function to trigger the login mutation
-    openConfirmModal()
+    mutation.mutate(data)
+    //
   }
 
   return (
     <>
       <Wrapper>
-        <article className='register-login-container'>
-          <article className='hero-img-container'>
-            <img src={main} alt='hero-img' />
-          </article>
-          <article>
-            <section className='logo-container'>
-              <div className='logo'>
-                <img src={logo} alt='logo' />
-              </div>
-              <h5>NELIREF</h5>
-            </section>
-            <section>
-              <h2>Reset Password</h2>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='reg-input'>
-                  <label>Emai</label>
-                  <div className='input-field'>
-                    <input
-                      type='text'
-                      placeholder='Email, username, or phone number'
-                      {...register('email')}
-                    />
+        {open && (
+          <article className='register-login-container'>
+            <article className='hero-img-container'>
+              <img src={main} alt='hero-img' />
+            </article>
+            <article>
+              <section className='logo-container'>
+                <div className='logo'>
+                  <img src={logo} alt='logo' />
+                </div>
+                <h5>NELIREF</h5>
+              </section>
+              <section>
+                <h2>Reset Password</h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className='reg-input'>
+                    <label>Email</label>
+                    <div className='input-field'>
+                      <input
+                        type='text'
+                        placeholder='Email, username, or phone number'
+                        {...register('email')}
+                      />
+                    </div>
+                    <p className='error'>{errors.email?.message}</p>
                   </div>
-                  <p className='error'>{errors.email?.message}</p>
-                </div>
 
-                <div className='btns'>
-                  <button
-                    type='submit'
-                    className='login'
-                    // disabled={mutation?.isPending}
-                  >
-                    <>
-                      Reset Password <HiOutlineArrowNarrowRight />
-                    </>
-                  </button>
-                </div>
-              </form>
-            </section>
+                  <div className='btns'>
+                    <button
+                      type='submit'
+                      className='login'
+                      disabled={mutation?.isPending}
+                    >
+                      {mutation.isPending ? (
+                        <RotatingLines
+                          type='Oval'
+                          style={{ color: '#FFF' }}
+                          height={20}
+                          width={20}
+                        />
+                      ) : (
+                        <>
+                          Send <HiOutlineArrowNarrowRight />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </section>
+            </article>
           </article>
-        </article>
+        )}
       </Wrapper>
       {isConfirmModalOpen && (
         <EmailConfirmationModal onClose={closeSuccessModal} />

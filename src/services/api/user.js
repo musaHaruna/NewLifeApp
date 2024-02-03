@@ -45,6 +45,32 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+
+  //Get app members
+  getMembers = async () => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.get('api/users/members')
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Get user's feeds
+  getFeeds = async (page, limit) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.get(
+        `api/users/feeds?page=${page}&limit=${limit}`
+      )
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
 }
 
 const user = new UserOBJ()

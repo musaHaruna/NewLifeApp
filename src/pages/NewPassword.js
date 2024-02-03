@@ -12,6 +12,7 @@ import { useMutation } from '@tanstack/react-query'
 import { RotatingLines } from 'react-loader-spinner'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import auth from '../services/api/auth'
 
 const CreateAccountPage1 = ({ setAuthToken }) => {
   const navigate = useNavigate()
@@ -33,6 +34,21 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
       .required('Confirm Password is required'),
   })
 
+  const mutation = useMutation({
+    mutationFn: auth.newPassword,
+    onSuccess: (data) => {
+      navigate('/', { replace: true })
+      toast.success('You have successfully reset your password')
+    },
+    onError: (error) => {
+      // Handle login error
+      console.error('error:', error)
+
+      toast.error(error)
+      toast.error(error?.message)
+    },
+  })
+
   const {
     register,
     handleSubmit,
@@ -44,6 +60,7 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
   const onSubmit = (data) => {
     // Call the mutate function to trigger the login mutation
     // console.log(data)
+    mutation.mutate(data)
   }
 
   return (
@@ -103,10 +120,23 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
               </div>
 
               <div className='btns'>
-                <button className='login'>
-                  <>
-                    Reset Password <HiOutlineArrowNarrowRight />
-                  </>
+                <button
+                  type='submit'
+                  className='login'
+                  disabled={mutation?.isPending}
+                >
+                  {mutation.isPending ? (
+                    <RotatingLines
+                      type='Oval'
+                      style={{ color: '#FFF' }}
+                      height={20}
+                      width={20}
+                    />
+                  ) : (
+                    <>
+                      Reset Password <HiOutlineArrowNarrowRight />
+                    </>
+                  )}
                 </button>
               </div>
             </form>

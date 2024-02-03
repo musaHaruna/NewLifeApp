@@ -30,7 +30,7 @@ const Profile = () => {
                 <CiUser className='icon' />
               </div>
 
-              <p>{user?.connections || 0} connection{user?.connections == 1 ? "" : "s"}</p>
+              <p>{user?.connections?.length || 0} connection{user?.connections?.length == 1 ? "" : "s"}</p>
             </div>
           </div>
         </section>

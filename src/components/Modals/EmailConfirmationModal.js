@@ -50,9 +50,6 @@ const EmailConfirmationModal = ({ onClose, action, isLoading }) => {
   return (
     <Wrapper style={modalStyle}>
       <div style={contentStyle}>
-        <div className='close-modal' onClick={onClose}>
-          <IoIosClose />
-        </div>
         <h3>Reset Password</h3>
         <p className='p-color'>
           We have sent you a link via mail, please follow to reset your passowrd

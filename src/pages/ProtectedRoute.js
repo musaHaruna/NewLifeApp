@@ -1,6 +1,9 @@
 import { Navigate } from 'react-router-dom';
-
+import userService from '../services/api/user';
 const ProtectedRoute = ({ children }) => {
+
+  const userConnections = userService.getConnectionsQuery()
+  console.log(userConnections)
   // Get the JWT token from local storage
   const auth_token =
     localStorage.getItem('NELIREF') ||

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
+
 
 const userSlice = createSlice({
   name: "user",
   initialState: {
     user: null,
+    connections: []
   },
   reducers: {
     loginSuccess: (state, action) => {
@@ -17,11 +18,18 @@ const userSlice = createSlice({
       return {
         ...state,
         user: null,
+        connections: []
+      };
+    },
+    connections: (state, action) => {
+      return {
+        ...state,
+        connections: action.payload
       };
     },
 
   },
 });
 
-export const { loginSuccess, logoutSuccess, offlineMode } = userSlice.actions;
+export const { loginSuccess, logoutSuccess, offlineMode, connections } = userSlice.actions;
 export default userSlice.reducer;

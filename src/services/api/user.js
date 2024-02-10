@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import api from '../index.js'
 
 class UserOBJ {
@@ -70,6 +71,27 @@ class UserOBJ {
     } catch (err) {
       throw err?.response?.data || err.message
     }
+  }
+
+  //Get user's Connections
+  getConnections = async () => {
+    try {
+
+      const response = await api.get(
+        `api/users/my-connections`
+      )
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  getConnectionsQuery = async () => {
+    const connections = useQuery({
+      queryKey: ['connections'],
+      queryFn: this.getConnections,
+    })
+    return connections
   }
 }
 

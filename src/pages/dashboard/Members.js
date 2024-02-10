@@ -26,68 +26,58 @@ const Members = () => {
       <article className='tab-content'>
         <h2>Members</h2>
       </article>
-      {members.isPending ? (
-        <div>
-          <RotatingLines
-            type='Oval'
-            style={{ color: '#FFF' }}
-            height={50}
-            width={50}
-          />
-        </div>
-      ) : (
-        <article className='members-container'>
-          <section className='tabs'>
-            <div className='groups'>
-              <div
-                onClick={() => setActiveTab('all-members')}
-                className={`tab-btn ${
-                  activeTab === 'all-members' ? 'active' : ''
-                }`}
-              >
-                <h4>
-                  All Members <span className='number'>{totalMembers}</span>
-                </h4>
-              </div>
-              <div
-                onClick={() => setActiveTab('my-connections')}
-                className={`tab-btn ${
-                  activeTab === 'my-connections' ? 'active' : ''
-                }`}
-              >
-                <h4>
-                  My Connections <span className='number-grey'> 1</span>
-                </h4>
-              </div>
-            </div>
-            <div className='displays'>
-              <div>
-                <BsGrid />
-              </div>
-              <div>
-                <HiBars3 className='bars' />
-              </div>
-            </div>
-          </section>
 
-          <section>
-            {activeTab === 'all-members' && <AllMembers members={members} />}
-            {activeTab === 'my-connections' && <MyConnections />}
-          </section>
-          <section className='pagination'>
-            <p>showing 1-20 of 260 members</p>
-
-            <div className='pagination-btns'>
-              <button className='active'>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>...</button>
-              <button>13</button>
-              <button className='next-btn'>{'>'}</button>
+      <article className='members-container'>
+        <section className='tabs'>
+          <div className='groups'>
+            <div
+              onClick={() => setActiveTab('all-members')}
+              className={`tab-btn ${
+                activeTab === 'all-members' ? 'active' : ''
+              }`}
+            >
+              <h4>
+                All Members <span className='number'>{totalMembers}</span>
+              </h4>
             </div>
-          </section>
-        </article>
-      )}
+            <div
+              onClick={() => setActiveTab('my-connections')}
+              className={`tab-btn ${
+                activeTab === 'my-connections' ? 'active' : ''
+              }`}
+            >
+              <h4>
+                My Connections <span className='number-grey'> 1</span>
+              </h4>
+            </div>
+          </div>
+          <div className='displays'>
+            <div>
+              <BsGrid />
+            </div>
+            <div>
+              <HiBars3 className='bars' />
+            </div>
+          </div>
+        </section>
+
+        <section>
+          {activeTab === 'all-members' && <AllMembers members={members} />}
+          {activeTab === 'my-connections' && <MyConnections />}
+        </section>
+        <section className='pagination'>
+          <p>showing 1-20 of 260 members</p>
+
+          <div className='pagination-btns'>
+            <button className='active'>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>...</button>
+            <button>13</button>
+            <button className='next-btn'>{'>'}</button>
+          </div>
+        </section>
+      </article>
     </Wrapper>
   )
 }

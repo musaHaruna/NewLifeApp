@@ -37,7 +37,7 @@ const CreateAccountPage1 = ({ setAuthToken }) => {
   const mutation = useMutation({
     mutationFn: auth.newPassword,
     onSuccess: (data) => {
-      navigate('/', { replace: true })
+      navigate('/login', { replace: true })
       toast.success('You have successfully reset your password')
     },
     onError: (error) => {

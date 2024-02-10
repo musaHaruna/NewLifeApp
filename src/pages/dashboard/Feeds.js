@@ -8,8 +8,8 @@ import { HiOutlinePhotograph } from 'react-icons/hi'
 import { BsCameraVideo } from 'react-icons/bs'
 import user from '../../services/api/user'
 import { useQuery } from '@tanstack/react-query'
-import { RotatingLines } from 'react-loader-spinner'
 import formatTimeAgo from '../../utils/utilsFunction'
+import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 
 const Feeds = () => {
   const pageNum = 1
@@ -33,48 +33,41 @@ const Feeds = () => {
           <BsCameraVideo className='icon' />
         </section>
 
-        {feeds.isPending ? (
-          <div>
-            <RotatingLines
-              type='Oval'
-              style={{ color: '#FFF' }}
-              height={50}
-              width={50}
-            />
-          </div>
-        ) : (
-          feeds?.data?.results?.map((feed, index) => (
-            <section key={index} className='feeds-card'>
-              <div>
-                <div className='feeds-content'>
-                  <div>
-                    <img
-                      src={profile}
-                      width={34}
-                      alt='profile'
-                      className='profile'
-                    />
+        {feeds.isPending
+          ? [1, 2, 3, 4, 5].map((n) => (
+              <SkeletonArticle key={n} theme='light' />
+            ))
+          : feeds?.data?.results?.map((feed, index) => (
+              <section key={index} className='feeds-card'>
+                <div>
+                  <div className='feeds-content'>
+                    <div>
+                      <img
+                        src={profile}
+                        width={34}
+                        alt='profile'
+                        className='profile'
+                      />
+                    </div>
+                    <div>
+                      <p>{feed.message}</p>
+                      <p className='time'>{formatTimeAgo(feed.createdAt)}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p>{feed.message}</p>
-                    <p className='time'>{formatTimeAgo(feed.createdAt)}</p>
+                  <div className='feeds-icons'>
+                    <p>
+                      <SlLike className='feed-icon' /> Like
+                    </p>
+                    <p>
+                      <TfiCommentAlt className='feed-icon' /> Comment
+                    </p>
                   </div>
                 </div>
-                <div className='feeds-icons'>
-                  <p>
-                    <SlLike className='feed-icon' /> Like
-                  </p>
-                  <p>
-                    <TfiCommentAlt className='feed-icon' /> Comment
-                  </p>
+                <div>
+                  <BsThreeDots />
                 </div>
-              </div>
-              <div>
-                <BsThreeDots />
-              </div>
-            </section>
-          ))
-        )}
+              </section>
+            ))}
       </article>
       <article className='updates'>
         <h3>Latest Updates </h3>

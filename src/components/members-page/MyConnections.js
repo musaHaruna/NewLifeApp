@@ -1,13 +1,11 @@
-import group from '../../assets/images/group-img.png'
 import emptystate from '../../assets/images/empty-state.png'
-import { MdOutlineCheckBox } from 'react-icons/md'
+import MemberCard from './MemberCard'
 
-const MyConnections = () => {
-  const data = 0
+const MyConnections = ({ connections }) => {
 
   return (
     <article className='forums'>
-      {data === 0 ? (
+      {connections?.length === 0 ? (
         <article className='all-groups none'>
           <div className='no-forum-container'>
             <div className='no-forum'>
@@ -21,22 +19,12 @@ const MyConnections = () => {
         </article>
       ) : (
         <article className='all-groups'>
-          <section>
-            <div className='content'>
-              <div className='img'>
-                <img src={group} alt='group-img' />
-              </div>
-              <div>
-                <h5>NELIRF New Orland Excos</h5>
-                <p>12,003 Members</p>
-                <p>All Questions concerining our platform can be asked here</p>
-              </div>
-            </div>
-            <button className='member'>
-              <MdOutlineCheckBox className='icon' />
-              Member
-            </button>
-          </section>
+          {
+            connections?.map(member => (
+              <MemberCard key={member._id} member={member} />
+            ))
+          }
+
         </article>
       )}
     </article>

@@ -2,7 +2,7 @@ import React from 'react';
 import Wrapper from '../../assets/wrappers/SuccessModal';
 import { RotatingLines } from 'react-loader-spinner';
 
-const ConfirmationModal = ({ onClose, action, isLoading }) => {
+const ConfirmationModal = ({ onClose, action, isLoading, message }) => {
     const modalStyle = {
         display: 'flex',
         justifyContent: 'center',
@@ -46,7 +46,7 @@ const ConfirmationModal = ({ onClose, action, isLoading }) => {
         <Wrapper style={modalStyle}>
             <div style={contentStyle}>
                 <h3>Confirm Action!</h3>
-                <p>Are you sure you want to proceed with this action?</p>
+                <p>{message ? message : "Are you sure you want to proceed with this action?"}</p>
                 <div style={buttonContainerStyle}>
                     <button style={cancelButtonStyle} onClick={onClose} disabled={isLoading}>
                         Cancel

@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
 import api from '../index.js'
 
 class UserOBJ {
@@ -86,13 +85,45 @@ class UserOBJ {
     }
   }
 
-  getConnectionsQuery = async () => {
-    const connections = useQuery({
-      queryKey: ['connections'],
-      queryFn: this.getConnections,
-    })
-    return connections
+  //Get user's Connections
+  sendConnectionRequest = async (receiverId) => {
+    try {
+
+      const response = await api.put(
+        `api/users/${receiverId}/connection?status=request`
+      )
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
   }
+
+  //Get user's Connections
+  handleConnectionRequest = async (receiverId, status) => {
+    try {
+
+      const response = await api.put(
+        `api/users/${receiverId}/connection?status=${status}`
+      )
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Get user's Notifications
+  getNotifications = async () => {
+    try {
+
+      const response = await api.get(
+        `api/users/notifications`
+      )
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
 }
 
 const user = new UserOBJ()

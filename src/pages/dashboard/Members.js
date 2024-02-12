@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Wrapper from '../../assets/wrappers/Members'
 import { BsGrid } from 'react-icons/bs'
 import { HiBars3 } from 'react-icons/hi2'
@@ -7,19 +7,30 @@ import AllMembers from '../../components/members-page/AllMembers'
 import MyConnections from '../../components/members-page/MyConnections'
 import { useQuery } from '@tanstack/react-query'
 import user from '../../services/api/user'
-import { RotatingLines } from 'react-loader-spinner'
+import { useSelector } from 'react-redux';
 
 const Members = () => {
   const [activeTab, setActiveTab] = useState('all-members')
+  const { connections } = useSelector((store) => store.user);
+  const [myConnections, setMyConnections] = useState([])
 
   const members = useQuery({
     queryKey: ['get-members'],
     queryFn: user.getMembers,
   })
+
   const totalMembers = members?.data?.members.reduce(
-    (sum, member) => sum + 1,
+    (sum) => sum + 1,
     0
   )
+
+  useEffect(() => {
+
+    if (connections?.length > 0) {
+      setMyConnections(members?.data?.members.filter(member => connections.some(item => (item.user === member._id && item.status === "connected"))))
+    }
+    return () => { }
+  }, [members?.data?.members])
 
   return (
     <Wrapper>
@@ -32,9 +43,8 @@ const Members = () => {
           <div className='groups'>
             <div
               onClick={() => setActiveTab('all-members')}
-              className={`tab-btn ${
-                activeTab === 'all-members' ? 'active' : ''
-              }`}
+              className={`tab-btn ${activeTab === 'all-members' ? 'active' : ''
+                }`}
             >
               <h4>
                 All Members <span className='number'>{totalMembers}</span>
@@ -42,12 +52,11 @@ const Members = () => {
             </div>
             <div
               onClick={() => setActiveTab('my-connections')}
-              className={`tab-btn ${
-                activeTab === 'my-connections' ? 'active' : ''
-              }`}
+              className={`tab-btn ${activeTab === 'my-connections' ? 'active' : ''
+                }`}
             >
               <h4>
-                My Connections <span className='number-grey'> 1</span>
+                My Connections <span className='number-grey'> {connections?.filter(item => item.status === "connected")?.length}</span>
               </h4>
             </div>
           </div>
@@ -63,7 +72,7 @@ const Members = () => {
 
         <section>
           {activeTab === 'all-members' && <AllMembers members={members} />}
-          {activeTab === 'my-connections' && <MyConnections />}
+          {activeTab === 'my-connections' && <MyConnections connections={myConnections} />}
         </section>
         <section className='pagination'>
           <p>showing 1-20 of 260 members</p>

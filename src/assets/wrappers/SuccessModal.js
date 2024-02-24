@@ -125,6 +125,43 @@ const Wrapper = styled.article`
   }
 
   /* Resources Modals */
+
+  /* Event Modal  */
+
+  .event-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .input-flex {
+    display: flex;
+    align-items: center;
+    border: 1px solid #b7b4b4;
+  }
+
+  .input-flex input {
+    border: none;
+    width: 30%;
+    margin: none;
+    display: inline-block;
+  }
+
+  .summary-text p {
+    text-align: left;
+    margin: 0.7rem 0;
+  }
+
+  .summary-text textarea {
+    height: 50px;
+    width: 100%;
+    padding: 0.5rem;
+  }
+  .input-flex input:focus {
+    outline: none;
+  }
+  /* Event Modal */
 `
 
 export default Wrapper

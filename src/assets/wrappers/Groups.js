@@ -246,6 +246,28 @@ const Wrapper = styled.main`
     color: #1e1e1e;
     border: #1e1e1e 1px so;
   }
+
+  /* Group Request */
+  .span-bold {
+    font-weight: 600;
+  }
+
+  .member.red {
+    background-color: #eb4335;
+  }
+
+  .cta-flex {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .see-more {
+    color: #2a4d93;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  /* Group Request */
 `
 
 export default Wrapper

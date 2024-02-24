@@ -30,6 +30,15 @@ const Wrapper = styled.article`
     color: #141b34;
     cursor: pointer;
   }
+
+  .modal-content {
+    text-align: left;
+    margin: 1rem 0;
+  }
+
+  .modal-content p {
+    text-align: left;
+  }
   .p-color {
     color: #205090;
   }
@@ -162,6 +171,50 @@ const Wrapper = styled.article`
     outline: none;
   }
   /* Event Modal */
+
+  /* Forum Modal  */
+  .member {
+    display: flex;
+    align-items: center;
+
+    gap: 0.5rem;
+    border: none;
+    color: #fff;
+    background-color: #34a853;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+  }
+
+  .content h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e1e1e;
+  }
+
+  .member.join-group {
+    background-color: #fff;
+    color: #1e1e1e;
+    border: #1e1e1e 1px so;
+  }
+  .span-bold {
+    font-weight: 600;
+  }
+
+  .member.red {
+    background-color: #eb4335;
+  }
+
+  .cta-flex {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .see-more {
+    color: #2a4d93;
+    font-weight: 600;
+  }
+  /* Forum Modal */
 `
 
 export default Wrapper

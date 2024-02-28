@@ -7,14 +7,30 @@ import {
 } from 'react-icons/io'
 import { RiHotspotLine } from 'react-icons/ri'
 import { BsImage } from 'react-icons/bs'
+import { BsCalendar2Event } from 'react-icons/bs'
+import AddEventModal from '../../components/Modals/AddEventModal'
 
 const Events = () => {
   const [activeTab, setActiveTab] = useState('all-members')
+  const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
+
+  const openAddEventModal = () => {
+    setIsAddEventModalOpen(true)
+  }
+
+  const closeAddEventModal = () => {
+    setIsAddEventModalOpen(false)
+  }
 
   return (
     <Wrapper>
+      {isAddEventModalOpen && <AddEventModal onClose={closeAddEventModal} />}
       <article className='tab-content'>
         <h2>Events</h2>
+        <div className='btn-primary '>
+          <BsCalendar2Event className='icon' />
+          <button onClick={openAddEventModal}>Add Event</button>
+        </div>
       </article>
 
       <article className='members-container'>

@@ -175,6 +175,12 @@ const Wrapper = styled.main`
    align-items: center;
    justify-content: space-between;
   }
+
+  .btn-primary button {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+  }
 `
 
 export default Wrapper

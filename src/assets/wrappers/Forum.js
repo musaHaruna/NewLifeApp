@@ -84,6 +84,7 @@ const Wrapper = styled.main`
 
   .tab-btn h4 {
     font-weight: 500;
+    color: #1e1e1e;
   }
   .tab-btn.tab-active {
     color: var(--primary-blue);
@@ -262,13 +263,33 @@ const Wrapper = styled.main`
 
   .no-forum-container p {
     text-align: center;
-    color: #b7b4b4 ;
+    color: #b7b4b4;
   }
 
   .all-groups.none {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .span-bold {
+    font-weight: 600;
+  }
+
+  .member.red {
+    background-color: #eb4335;
+  }
+
+  .cta-flex {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .see-more {
+    color: #2a4d93;
+    cursor: pointer;
+    font-weight: 600;
   }
 `
 

@@ -4,9 +4,11 @@ import { CgAddR } from 'react-icons/cg'
 import MyForums from '../../components/forums-page/MyForums'
 import { useState } from 'react'
 import ForumModal from '../../components/Modals/ForumModal'
+import ForumRequest from '../../components/forums-page/ForumRequest'
 
 const Forum = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('Photos')
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -36,15 +38,35 @@ const Forum = () => {
         <section className='tabs'>
           <div className='groups'>
             <div className={`tab-btn active`}>
-              <h4>
-                Forum <span className='number'>1</span>
-              </h4>
+              <div className='groups'>
+                <div
+                  onClick={() => setActiveTab('Photos')}
+                  className={`tab-btn ${
+                    activeTab === 'Photos' ? 'active' : ''
+                  }`}
+                >
+                  <h4>
+                    Forums <span className='number'>12</span>
+                  </h4>
+                </div>
+                <div
+                  onClick={() => setActiveTab('my-groups')}
+                  className={`tab-btn ${
+                    activeTab === 'my-groups' ? 'active' : ''
+                  }`}
+                >
+                  <h4>
+                    Forums Request <span className='number-grey'> 1</span>
+                  </h4>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         <section>
-          <MyForums />
+          {activeTab === 'Photos' && <MyForums />}
+          {activeTab === 'my-groups' && <ForumRequest />}
         </section>
       </article>
     </Wrapper>

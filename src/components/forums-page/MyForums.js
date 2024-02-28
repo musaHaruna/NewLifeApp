@@ -3,7 +3,16 @@ import emptystate from '../../assets/images/empty-state.png'
 import { MdOutlineCheckBox } from 'react-icons/md'
 
 const MyForums = () => {
-  const data = 0
+  const data = 1
+  const data2 = [
+    {
+      imgSrc: group,
+      title: 'New members Questions and Answers',
+      membersCount: '12,003 Members',
+      description: 'All Questions concerning our platform can be asked here',
+    },
+    // Add more objects as needed
+  ]
 
   return (
     <article className='forums'>
@@ -20,16 +29,18 @@ const MyForums = () => {
       ) : (
         <article className='all-groups'>
           <section>
-            <div className='content'>
-              <div className='img'>
-                <img src={group} alt='group-img' />
+            {data2.map((item, index) => (
+              <div className='content' key={index}>
+                <div className='img'>
+                  <img src={item.imgSrc} alt={`group-img-${index}`} />
+                </div>
+                <div>
+                  <h5>{item.title}</h5>
+                  <p>{item.membersCount}</p>
+                  <p>{item.description}</p>
+                </div>
               </div>
-              <div>
-                <h5>NELIRF New Orland Excos</h5>
-                <p>12,003 Members</p>
-                <p>All Questions concerining our platform can be asked here</p>
-              </div>
-            </div>
+            ))}
             <button className='member'>
               <MdOutlineCheckBox className='icon' />
               Member

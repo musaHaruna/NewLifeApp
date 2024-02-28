@@ -8,17 +8,15 @@ import AllGroups from '../../components/groups-page/AllGroups'
 import MyGroups from '../../components/groups-page/MyGroups'
 import GroupsModal from '../../components/Modals/GroupsModal'
 import { useSelector } from 'react-redux';
+import GroupRequest from '../../components/groups-page/GroupRequest'
+import { useQuery } from '@tanstack/react-query'
+
 const Groups = () => {
   const [activeTab, setActiveTab] = useState('Photos')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useSelector((store) => store.user);
   console.log(user)
 
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['connections'],
-    queryFn: userService.getConnections,
-  });
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -65,6 +63,15 @@ const Groups = () => {
                 My Groups <span className='number-grey'> 1</span>
               </h4>
             </div>
+            <div
+              onClick={() => setActiveTab('group-request')}
+              className={`tab-btn ${activeTab === 'group-request' ? 'active' : ''
+                }`}
+            >
+              <h4>
+                Group Request <span className='number-grey'> 3</span>
+              </h4>
+            </div>
           </div>
           <div className='displays'>
             <div>
@@ -79,6 +86,7 @@ const Groups = () => {
         <section>
           {activeTab === 'Photos' && <AllGroups />}
           {activeTab === 'my-groups' && <MyGroups />}
+          {activeTab === 'group-request' && <GroupRequest />}
         </section>
       </article>
     </Wrapper>

@@ -9,18 +9,79 @@ import { FiLink2 } from 'react-icons/fi'
 import Photos from '../../components/resources-page/Photos'
 import UsefullLinks from '../../components/resources-page/UsefullLinks'
 import Publications from '../../components/resources-page/Publications'
+import { TiDocumentDelete } from 'react-icons/ti'
+import { IoLinkSharp } from 'react-icons/io5'
+import AddDocumentModal from '../../components/Modals/AddDocumentModal'
+import AddPhotoModal from '../../components/Modals/AddPhotoModal'
+import AddUsefulLinks from '../../components/Modals/AddUsefulLinks'
+import AddPublicationsModal from '../../components/Modals/AddPublicationsModal'
 
 const Resources = () => {
   const [activeTab, setActiveTab] = useState('Documents')
+  const [isAddDocumentModalOpen, setIsAddDocumentModalOpen] = useState(false)
+  const [isAddPhotoModalOpen, setIsAddPhotoModalOpen] = useState(false)
+  const [isAddPublicationsModalOpen, setIsAddPublicationsModalOpen] =
+    useState(false)
+  const [isAddUsefulLinksModalOpen, setIsAddUsefulLinksModalOpen] =
+    useState(false)
+
+  const openAddDocumentModal = () => {
+    setIsAddDocumentModalOpen(true)
+  }
+
+  const closeAddDocumentModal = () => {
+    setIsAddDocumentModalOpen(false)
+  }
+
+  const openAddPhotoModal = () => {
+    setIsAddPhotoModalOpen(true)
+  }
+
+  const closeAddPhotoModal = () => {
+    setIsAddPhotoModalOpen(false)
+  }
+
+  const openAddPublicationsModal = () => {
+    setIsAddPublicationsModalOpen(true)
+  }
+
+  const closeAddPublicationsModal = () => {
+    setIsAddPublicationsModalOpen(false)
+  }
+
+  const openAddUsefulLinksModal = () => {
+    setIsAddUsefulLinksModalOpen(true)
+  }
+
+  const closeAddUsefulLinksModal = () => {
+    setIsAddUsefulLinksModalOpen(false)
+  }
 
   return (
     <Wrapper>
+      {isAddDocumentModalOpen && (
+        <AddDocumentModal onClose={closeAddDocumentModal} />
+      )}
+      {isAddPhotoModalOpen && <AddPhotoModal onClose={closeAddPhotoModal} />}
+      {isAddUsefulLinksModalOpen && (
+        <AddUsefulLinks onClose={closeAddUsefulLinksModal} />
+      )}
+      {isAddPublicationsModalOpen && (
+        <AddPublicationsModal onClose={closeAddPublicationsModal} />
+      )}
+
       {activeTab === 'Documents' && (
         <article className='tab-content'>
           <h2>Documents</h2>
-          <div className='search'>
-            <CiSearch className='search-icon' />
-            <input type='text' placeholder='Search Documents' />
+          <div className='photos-search'>
+            <div className='search'>
+              <CiSearch className='search-icon' />
+              <input type='text' placeholder='Search Documents' />
+            </div>
+            <div className='btn-primary '>
+              <TiDocumentDelete className='icon' />
+              <button onClick={openAddDocumentModal}>Add Document</button>
+            </div>
           </div>
         </article>
       )}
@@ -34,7 +95,7 @@ const Resources = () => {
             </div>
             <div className='btn-primary '>
               <HiOutlinePhotograph className='icon' />
-              <button>Add Photos</button>
+              <button onClick={openAddPhotoModal}>Add Photos</button>
             </div>
           </div>
         </article>
@@ -42,18 +103,34 @@ const Resources = () => {
       {activeTab === 'Useful Links' && (
         <article className='tab-content'>
           <h2>Useful Links</h2>
-          <div className='btn-primary '>
-            <FiLink2 className='icon' />
-            <button>Usefull Links</button>
+          <div className='photos-search'>
+            <div className='search'>
+              <CiSearch className='search-icon' />
+              <input type='text' placeholder='Search Photos' />
+            </div>
+            <div className='btn-primary '>
+              <IoLinkSharp className='icon' />
+              <button onClick={openAddUsefulLinksModal}>
+                Add usefull links
+              </button>
+            </div>
           </div>
         </article>
       )}
       {activeTab === 'Publications and Research' && (
         <article className='tab-content'>
           <h2>Publications and Research</h2>
-          <div className='search'>
-            <CiSearch className='search-icon' />
-            <input type='text' placeholder='Search Documents' />
+          <div className='photos-search'>
+            <div className='search'>
+              <CiSearch className='search-icon' />
+              <input type='text' placeholder='Search Photos' />
+            </div>
+            <div className='btn-primary '>
+              <TiDocumentDelete className='icon' />
+              <button onClick={openAddPublicationsModal}>
+                Add publications
+              </button>
+            </div>
           </div>
         </article>
       )}

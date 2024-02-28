@@ -7,10 +7,18 @@ import { CgAddR } from 'react-icons/cg'
 import AllGroups from '../../components/groups-page/AllGroups'
 import MyGroups from '../../components/groups-page/MyGroups'
 import GroupsModal from '../../components/Modals/GroupsModal'
-
+import { useSelector } from 'react-redux';
 const Groups = () => {
   const [activeTab, setActiveTab] = useState('Photos')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user } = useSelector((store) => store.user);
+  console.log(user)
+
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['connections'],
+    queryFn: userService.getConnections,
+  });
 
   const openModal = () => {
     setIsModalOpen(true)

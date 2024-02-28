@@ -124,6 +124,19 @@ class UserOBJ {
     }
   }
 
+  //Get user's Updates
+  getUpdates = async () => {
+    try {
+
+      const response = await api.get(
+        `api/users/updates`
+      )
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
 }
 
 const user = new UserOBJ()

@@ -10,7 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
 
-const MemberCard = ({ member }) => {
+const MemberCard = ({ member, isMe }) => {
     const { connections } = useSelector((store) => store.user);
     const [confirmModalOpen, setConfirmModalOpen] = useState(false)
     const [message, setMessage] = useState("")
@@ -34,10 +34,10 @@ const MemberCard = ({ member }) => {
     }
 
     function connectionRequest(member) {
-        setActiveMember(member._id)
-        setMessage(`Send connection request to ${member.full_name}?`)
+        setActiveMember(member?._id)
+        setMessage(`Send connection request to ${member?.full_name}?`)
         openConfirmModal()
-        setActiveMember(member._id)
+        setActiveMember(member?._id)
     }
 
 
@@ -67,24 +67,22 @@ const MemberCard = ({ member }) => {
                 </div>
                 <div>
                     <h6>
-                        {member?.full_name} <span>Member</span>
+                        {member?.full_name} <span>{isMe ? "Me" : "Member"}</span>
                     </h6>
                     <p>
                         Joined{' '}
-                        {new Date(member.createdAt).toLocaleDateString('en-US', {
+                        {new Date(member?.createdAt).toLocaleDateString('en-US', {
                             month: 'short',
                             year: 'numeric',
                         })}
                         {' - '}
-                        Active last
-                        {" "}
-                        {moment(member.updatedAt).fromNow()}
+                        Active {isMe ? "Now" : `last ${moment(member?.updatedAt).fromNow()}`}
                     </p>
                 </div>
             </div>
             <div className='member-icons'>
                 {
-                    !connectionStatus(member._id) && <MdOutlinePersonAddAlt1
+                    (!connectionStatus(member?._id) && !isMe) && <MdOutlinePersonAddAlt1
                         onClick={() => connectionRequest(member)}
                         style={{ cursor: "pointer" }}
                         className='icon' />

@@ -190,6 +190,17 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+
+  uploadUsefullLinks = async (data) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.post('api/admin/useful-links', data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
 }
 
 const user = new UserOBJ()

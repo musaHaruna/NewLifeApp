@@ -2,6 +2,11 @@ import React from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
+import { loginSuccess } from '../../redux/reducers/userReducer'
+import user from '../../services/api/user'
+import { RotatingLines } from 'react-loader-spinner'
 
 const AddUsefulLinks = ({ onClose, message }) => {
   const modalStyle = {
@@ -24,33 +29,71 @@ const AddUsefulLinks = ({ onClose, message }) => {
     padding: '1.5rem',
   }
 
-  const [url, setUrl] = useState('')
-  const [linkTitle, setLinkTitle] = useState('')
+  const [formData, setFormData] = useState({
+    title: '',
+    url: '',
+  })
 
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
+  console.log(formData)
+
+  const [formErrors, setFormErrors] = useState({})
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
   }
 
-  const handleLinkTitleChange = (event) => {
-    setLinkTitle(event.target.value)
+  const mutation = useMutation({
+    mutationFn: user.uploadUsefullLinks,
+    onSuccess: (data) => {
+      toast.success('Link Added')
+    },
+    onError: (error) => {
+      toast.error(error)
+      toast.error(error?.message)
+    },
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log('its working')
+    const validationErrors = validateForm()
+
+    // If there are no validation errors, submit the form
+    mutation.mutate(formData)
+  }
+
+  const validateForm = () => {
+    const errors = {}
+    // Perform your form validation here
+    // For simplicity, let's assume all fields are required
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key]) {
+        errors[key] = 'This field is required'
+      }
+    })
+    return errors
   }
   return (
     <Wrapper style={modalStyle}>
       <div style={contentStyle}>
         <div className='heading'>
-          <h3>Add Document</h3>
+          <h3>Add Link</h3>
           <button onClick={onClose}>
             <IoMdClose />
           </button>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <label>
             Title of Link
             <input
               type='text'
               placeholder='Enter title here'
-              value={linkTitle}
-              onChange={handleLinkTitleChange}
+              name='title'
+              onChange={handleInputChange}
             />
           </label>
           <label>
@@ -58,12 +101,14 @@ const AddUsefulLinks = ({ onClose, message }) => {
             <input
               type='text'
               placeholder='Enter URL'
-              value={url}
-              onChange={handleUrlChange}
+              name='url'
+              onChange={handleInputChange}
             />
           </label>
 
-          <button className='action-btn'>Upload Document</button>
+          <button className='action-btn' type='submit'>
+            Upload Link
+          </button>
         </form>
       </div>
     </Wrapper>

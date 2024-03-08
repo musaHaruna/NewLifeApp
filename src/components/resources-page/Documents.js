@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { Paper } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
+import user from '../../services/api/user'
 
 const rows = [
   {
@@ -37,6 +39,12 @@ const rows = [
 ]
 
 const Documents = () => {
+  const documents = useQuery({
+    queryKey: ['get-documents'],
+    queryFn: user.getDocuments,
+  })
+
+  console.log(documents.isSuccess)
   {
     return (
       <section className='tcontainer-wrapper'>

@@ -20,7 +20,6 @@ const Feeds = () => {
     queryFn: (page, limit) => user.getFeeds(pageNum, pageLimit),
   })
 
-  console.log(feeds)
   return (
     <Wrapper>
       <article className='feeds'>

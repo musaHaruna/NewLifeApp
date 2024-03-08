@@ -23,6 +23,12 @@ const Wrapper = styled.article`
     cursor: pointer;
   }
 
+  .input-document {
+    display: block;
+    background-color: #34a853;
+    width: 500px;
+  }
+
   .close-modal {
     font-size: 28px;
     display: flex;
@@ -77,7 +83,7 @@ const Wrapper = styled.article`
 
   .action-btn {
     width: 100%;
-    background-color: #a2c1ff;
+    background-color: #2a4d93;
   }
 
   .drop-box {

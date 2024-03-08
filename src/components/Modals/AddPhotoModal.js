@@ -24,6 +24,7 @@ const AddPhotoModal = ({ onClose, message }) => {
     borderRadius: '5px',
     padding: '1.5rem',
   }
+
   return (
     <Wrapper style={modalStyle}>
       <div style={contentStyle}>

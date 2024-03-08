@@ -7,11 +7,16 @@ import { CgAddR } from 'react-icons/cg'
 import AllGroups from '../../components/groups-page/AllGroups'
 import MyGroups from '../../components/groups-page/MyGroups'
 import GroupsModal from '../../components/Modals/GroupsModal'
+import { useSelector } from 'react-redux';
 import GroupRequest from '../../components/groups-page/GroupRequest'
+import { useQuery } from '@tanstack/react-query'
 
 const Groups = () => {
   const [activeTab, setActiveTab] = useState('Photos')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user } = useSelector((store) => store.user);
+  console.log(user)
+
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -60,9 +65,8 @@ const Groups = () => {
             </div>
             <div
               onClick={() => setActiveTab('group-request')}
-              className={`tab-btn ${
-                activeTab === 'group-request' ? 'active' : ''
-              }`}
+              className={`tab-btn ${activeTab === 'group-request' ? 'active' : ''
+                }`}
             >
               <h4>
                 Group Request <span className='number-grey'> 3</span>

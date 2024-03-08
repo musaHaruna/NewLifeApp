@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ConfirmationModal from '../../components/Modals/ConfirmationModal';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import SkeletonArticle from '../../components/skeletons/SkeletonArticle';
 
 const Notifications = () => {
   const { connections } = useSelector((store) => store.user);
@@ -18,7 +19,7 @@ const Notifications = () => {
   const [activeMember, setActiveMember] = useState(null);
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data, isPending: loading } = useQuery({
     queryKey: ['get-notifications'],
     queryFn: userService.getNotifications,
   });
@@ -67,6 +68,7 @@ const Notifications = () => {
         <h2>Notifications</h2>
       </article>
 
+
       <article>
         <section className='tabs'>
           <div className='groups'>
@@ -77,44 +79,52 @@ const Notifications = () => {
             </div>
           </div>
         </section>
+        {
+          loading
+            ? [1, 2, 3].map((n) => (
+              <SkeletonArticle key={n} theme='light' />
+            )) :
+            <section className='notifications-wrapper'>
+              {data?.notifications.map((item) =>
+                item?.type === 'Connection' ? (
+                  <article className='notification-card' key={item._id}>
+                    <div className='notification-content'>
+                      <img className='profile' src={item?.info?.photo || profile} alt='' />
+                      <div>
+                        <p>
+                          <span className='users-name'> {item?.info?.full_name}</span> Sent you a connection
+                        </p>
+                        <p className='date'> {moment(item.createdAt).fromNow()}</p>
+                      </div>
+                    </div>
+                    <div className='btns'>
+                      {connectionStatus(item.info._id) === 'connected' ? (
+                        <button className='connected'>
+                          <AiOutlineCheckSquare className='icon' /> Connected
+                        </button>
+                      ) : connectionStatus(item.info._id) === 'received' ? (
+                        <>
+                          <button className='connect' onClick={() => handleConnectionRequest(item?.info, 'accept')} disabled={isPending}>
+                            <AiOutlineUserAdd className='icon' /> Connect
+                          </button>
+                          <button className='decline' onClick={() => handleConnectionRequest(item?.info, 'reject')} disabled={isPending}>
+                            <AiOutlineUserAdd className='icon' />
+                            Decline
+                          </button>
+                        </>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                  </article>
+                ) : null
+              )}
+            </section>
+        }
 
-        <section className='notifications-wrapper'>
-          {data?.notifications.map((item) =>
-            item?.type === 'Connection' ? (
-              <article className='notification-card' key={item._id}>
-                <div className='notification-content'>
-                  <img className='profile' src={item?.info?.photo || profile} alt='' />
-                  <div>
-                    <p>
-                      <span className='users-name'> {item?.info?.full_name}</span> Sent you a connection
-                    </p>
-                    <p className='date'> {moment(item.createdAt).fromNow()}</p>
-                  </div>
-                </div>
-                <div className='btns'>
-                  {connectionStatus(item.info._id) === 'connected' ? (
-                    <button className='connected'>
-                      <AiOutlineCheckSquare className='icon' /> Connected
-                    </button>
-                  ) : connectionStatus(item.info._id) === 'received' ? (
-                    <>
-                      <button className='connect' onClick={() => handleConnectionRequest(item?.info, 'accept')}>
-                        <AiOutlineUserAdd className='icon' /> Connect
-                      </button>
-                      <button className='decline' onClick={() => handleConnectionRequest(item?.info, 'reject')}>
-                        <AiOutlineUserAdd className='icon' />
-                        Decline
-                      </button>
-                    </>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </article>
-            ) : null
-          )}
-        </section>
       </article>
+
+
       {confirmModalOpen && (
         <ConfirmationModal onClose={closeConfirmModal} action={mutate} isLoading={isPending} message={message} />
       )}

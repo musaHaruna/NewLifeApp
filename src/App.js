@@ -40,6 +40,7 @@ function App() {
           <Route path='notifications' element={<Notifications />} />
           <Route path='messages' element={<Messages />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='user-profile' element={<Profile />} /> {/*for other users*/}
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />

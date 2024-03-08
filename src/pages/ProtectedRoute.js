@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (data) {
-      dispatch(connections(data.connections.connections));
+      dispatch(connections(data?.connections?.connections));
     }
     // Cleanup logic (if needed)
     return () => {

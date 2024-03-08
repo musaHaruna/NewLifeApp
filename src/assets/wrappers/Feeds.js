@@ -87,6 +87,7 @@ const Wrapper = styled.main`
   .updates h3 {
     color: #1e1e1e;
     font-weight: 600;
+    border-bottom: 1px solid #b7b4b4;
   }
 
   .period {
@@ -99,7 +100,7 @@ const Wrapper = styled.main`
     gap: 0.5rem;
     border-bottom: 1px solid #b7b4b4;
     padding: 0.5rem 0;
-    border-top: 1px solid #b7b4b4;
+    // border-top: 1px solid #b7b4b4;
     margin: 1rem 0;
   }
   .updates section div p span {

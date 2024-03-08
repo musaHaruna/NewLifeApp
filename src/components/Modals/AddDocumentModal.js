@@ -50,9 +50,6 @@ const AddDocumentModal = ({ onClose, message }) => {
     setSelectedVisibility(event.target.value)
   }
 
-  console.log()
-
-  console.log(selectedVisibility)
   const handleDocumentUpload = async (e) => {
     e.preventDefault()
     if (selecteDocument) {

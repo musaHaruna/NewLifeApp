@@ -177,6 +177,19 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+  uploadPhoto = async (formData) => {
+    try {
+      const response = await api.post(`/api/admin/photos`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
 }
 
 const user = new UserOBJ()

@@ -22,7 +22,14 @@ const UsefullLinks = () => {
               <div>
                 <HiLink />
               </div>
-              <a href={link.url} target='blank'>
+              <a
+                href={
+                  link.url.startsWith('https://')
+                    ? link.url
+                    : `https://${link.url}`
+                }
+                target='blank'
+              >
                 {link.url}
               </a>
             </div>

@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
-
+import { RotatingLines } from 'react-loader-spinner'
 const AddDocumentModal = ({ onClose, message }) => {
   const modalStyle = {
     display: 'block',
@@ -29,7 +29,7 @@ const AddDocumentModal = ({ onClose, message }) => {
     padding: '1.5rem',
   }
 
-  const [selectedGroup, setSelectedGroup] = useState('')
+  const [selectedGroup, setSelectedGroup] = useState('Group 1')
   const [documentTitle, setDocumentTitle] = useState('')
   const [selecteDocument, setSelectedDocument] = useState(null)
 
@@ -52,6 +52,26 @@ const AddDocumentModal = ({ onClose, message }) => {
 
   const handleDocumentUpload = async (e) => {
     e.preventDefault()
+    const titleRegex = /^.+$/ // Allow any character, 1-255 characters
+    const titleIsValid = titleRegex.test(documentTitle)
+    if (!titleIsValid) {
+      toast.error('Invalid document title')
+      return
+    }
+    if (!selectedGroup) {
+      toast.error('Please select a group')
+      return
+    }
+    if (!selecteDocument) {
+      toast.error('Please select a file')
+      return
+    }
+
+    if (!selectedVisibility) {
+      toast.error('Please select a visibility option')
+      return
+    }
+
     if (selecteDocument) {
       const formData = new FormData()
       formData.append('document', selecteDocument)
@@ -61,7 +81,8 @@ const AddDocumentModal = ({ onClose, message }) => {
 
       try {
         await documentMutation.mutateAsync(formData)
-        selecteDocument(null) // Reset selected file after upload
+        setSelectedDocument(null) // Reset selected file after upload
+        onClose()
       } catch (error) {
         console.log(error)
       }
@@ -126,7 +147,16 @@ const AddDocumentModal = ({ onClose, message }) => {
             </select>
           </label>
           <button className='action-btn' type='submit'>
-            Upload Document
+            {documentMutation.isPending ? (
+              <RotatingLines
+                type='Oval'
+                style={{ color: '#fff' }}
+                height={20}
+                width={20}
+              />
+            ) : (
+              <>Upload Document</>
+            )}
           </button>
         </form>
       </div>

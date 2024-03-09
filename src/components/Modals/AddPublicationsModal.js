@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
+import { RotatingLines } from 'react-loader-spinner'
 
 const AddPublicationsModal = ({ onClose, message }) => {
   const modalStyle = {
@@ -51,6 +52,23 @@ const AddPublicationsModal = ({ onClose, message }) => {
 
   const handleDocumentUpload = async (e) => {
     e.preventDefault()
+
+    if (!selecteDocument) {
+      toast.error('Please select a file')
+      return
+    }
+    if (!titleOfPublications) {
+      toast.error('Title is required')
+      return
+    }
+    if (!category) {
+      toast.error('Category is required')
+      return
+    }
+    if (!type) {
+      toast.error('Type is required')
+      return
+    }
     if (selecteDocument) {
       const formData = new FormData()
 
@@ -62,7 +80,9 @@ const AddPublicationsModal = ({ onClose, message }) => {
 
       try {
         await documentMutation.mutateAsync(formData)
-        setSelectedDocument(null) // Reset selected file after upload
+        setSelectedDocument(null)
+        onClose()
+        // Reset selected file after upload
       } catch (error) {
         console.log(error)
       }
@@ -129,7 +149,16 @@ const AddPublicationsModal = ({ onClose, message }) => {
             30mb.
           </p>
           <button className='action-btn' type='submit'>
-            Upload Document
+            {documentMutation.isPending ? (
+              <RotatingLines
+                type='Oval'
+                style={{ color: '#fff' }}
+                height={20}
+                width={20}
+              />
+            ) : (
+              <>Upload Document</>
+            )}
           </button>
         </form>
       </div>

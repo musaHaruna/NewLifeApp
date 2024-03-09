@@ -6,6 +6,7 @@ import { MdInsertPhoto } from 'react-icons/md'
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { RotatingLines } from 'react-loader-spinner'
 import user from '../../services/api/user'
 
 const AddPhotoModal = ({ onClose, message }) => {
@@ -37,13 +38,18 @@ const AddPhotoModal = ({ onClose, message }) => {
 
   const handlePhotoUpload = async (e) => {
     e.preventDefault()
+    if (!selectedPhoto) {
+      toast.error('Please select a file')
+      return
+    }
     if (selectedPhoto) {
       const formData = new FormData()
       formData.append('photo', selectedPhoto)
 
       try {
         await documentMutation.mutateAsync(formData)
-        setSelectedPhoto(null) // Reset selected file after upload
+        setSelectedPhoto(null)
+        onClose() // Reset selected file after upload
       } catch (error) {
         console.log(error)
       }
@@ -86,7 +92,16 @@ const AddPhotoModal = ({ onClose, message }) => {
           </div>
         </div>
         <button className='action-btn' type='submit'>
-          Upload Document
+          {documentMutation.isPending ? (
+            <RotatingLines
+              type='Oval'
+              style={{ color: '#fff' }}
+              height={20}
+              width={20}
+            />
+          ) : (
+            <>Upload Document</>
+          )}
         </button>
       </form>
     </Wrapper>

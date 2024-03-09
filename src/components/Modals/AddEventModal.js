@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
+import { RotatingLines } from 'react-loader-spinner'
 
 const AddEventModal = ({ onClose, message }) => {
   const modalStyle = {
@@ -42,8 +43,45 @@ const AddEventModal = ({ onClose, message }) => {
     setSelectedDocument(e.target.files[0])
   }
 
+  const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9](am|pm)$/i
+
   const handleEventUpload = async (e) => {
     e.preventDefault()
+
+    if (!title) {
+      toast.error('Title is required.')
+      return
+    }
+
+    if (!category) {
+      toast.error('Category is required.')
+      return
+    }
+
+    if (!eventDate) {
+      toast.error('Event date is required.')
+      return
+    }
+
+    if (!timeRegex.test(startTime)) {
+      toast.error('Invalid start time format. Please use HH:mmam/pm.')
+      return
+    }
+
+    if (!timeRegex.test(endTime)) {
+      toast.error('Invalid end time format. Please use HH:mmam/pm.')
+      return
+    }
+
+    if (!summary) {
+      toast.error('Summary is required.')
+      return
+    }
+
+    if (!selectedDocument) {
+      toast.error('Please select a document.')
+      return
+    }
     if (selectedDocument) {
       const formData = new FormData()
       formData.append('image', selectedDocument)
@@ -56,7 +94,9 @@ const AddEventModal = ({ onClose, message }) => {
 
       try {
         await eventMutation.mutateAsync(formData)
-        setSelectedDocument(null) // Reset selected file after upload
+        setSelectedDocument(null)
+        onClose()
+        // Reset selected file after upload
       } catch (error) {
         console.log(error)
       }
@@ -155,7 +195,16 @@ const AddEventModal = ({ onClose, message }) => {
             is 10mb.
           </p>
           <button className='action-btn' type='sumbit'>
-            Add Event
+            {eventMutation.isPending ? (
+              <RotatingLines
+                type='Oval'
+                style={{ color: '#fff' }}
+                height={20}
+                width={20}
+              />
+            ) : (
+              <>Add Event</>
+            )}
           </button>
         </form>
       </div>

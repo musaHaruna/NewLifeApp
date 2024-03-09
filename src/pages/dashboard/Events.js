@@ -11,6 +11,7 @@ import { BsCalendar2Event } from 'react-icons/bs'
 import AddEventModal from '../../components/Modals/AddEventModal'
 import { useQuery } from '@tanstack/react-query'
 import user from '../../services/api/user'
+import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
 
 const events = [
   {
@@ -77,34 +78,38 @@ const Events = () => {
             </div>
           </div>
         </section>
-
-        <section className='event-container'>
-          <section>
-            {data.map((event, index) => (
-              <section className='events' key={index}>
-                <div className='event-content'>
-                  <p>
-                    {new Date(event.eventDate).toLocaleDateString(
-                      'en-US',
-                      options
-                    )}{' '}
-                    - {event.startTime} - {event.endTime} WAT
-                  </p>
-                  <h5>{event.title}</h5>
-                  <div className='virtual-event'>
-                    <RiHotspotLine className='icon' />
-                    <p>{event.type}</p>
+        {getEvents.isPending ? (
+          [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
+        ) : (
+          <section className='event-container'>
+            <section>
+              {data?.map((event, index) => (
+                <section className='events' key={index}>
+                  <div className='event-content'>
+                    <p>
+                      {new Date(event.eventDate).toLocaleDateString(
+                        'en-US',
+                        options
+                      )}{' '}
+                      - {event.startTime} - {event.endTime} WAT
+                    </p>
+                    <h5>{event.title}</h5>
+                    <div className='virtual-event'>
+                      <RiHotspotLine className='icon' />
+                      <p>{event.type}</p>
+                    </div>
+                    <p className='summary'>{event.summary}</p>
                   </div>
-                  <p className='summary'>{event.summary}</p>
-                </div>
-                <div className='picture'>
-                  <img src={event.file.url} alt='' />
-                </div>
-              </section>
-            ))}
+                  <div className='picture'>
+                    <img src={event.file.url} alt='' />
+                  </div>
+                </section>
+              ))}
+            </section>
           </section>
-        </section>
+        )}
       </article>
+      {getEvents.isError && <p>An Error Occured</p>}
     </Wrapper>
   )
 }

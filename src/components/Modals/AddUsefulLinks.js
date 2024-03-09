@@ -36,8 +36,6 @@ const AddUsefulLinks = ({ onClose, message }) => {
 
   console.log(formData)
 
-  const [formErrors, setFormErrors] = useState({})
-
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData({
@@ -58,26 +56,27 @@ const AddUsefulLinks = ({ onClose, message }) => {
     },
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('its working')
-    const validationErrors = validateForm()
-
+    if (!formData.url) {
+      toast.error('Url is required')
+      return
+    }
+    if (!formData.title) {
+      toast.error('Title is required')
+      return
+    }
     // If there are no validation errors, submit the form
-    mutation.mutate(formData)
+
+    try {
+      await mutation.mutate(formData)
+      // Reset selected file after upload
+      onClose()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  const validateForm = () => {
-    const errors = {}
-    // Perform your form validation here
-    // For simplicity, let's assume all fields are required
-    Object.keys(formData).forEach((key) => {
-      if (!formData[key]) {
-        errors[key] = 'This field is required'
-      }
-    })
-    return errors
-  }
   return (
     <Wrapper style={modalStyle}>
       <div style={contentStyle}>
@@ -108,7 +107,16 @@ const AddUsefulLinks = ({ onClose, message }) => {
           </label>
 
           <button className='action-btn' type='submit'>
-            Upload Link
+            {mutation.isPending ? (
+              <RotatingLines
+                type='Oval'
+                style={{ color: '#fff' }}
+                height={20}
+                width={20}
+              />
+            ) : (
+              <>Upload Link</>
+            )}
           </button>
         </form>
       </div>

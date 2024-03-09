@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { RiFileListLine } from 'react-icons/ri'
+import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import user from '../../services/api/user'
 
 const AddPublicationsModal = ({ onClose, message }) => {
   const modalStyle = {
@@ -27,6 +31,11 @@ const AddPublicationsModal = ({ onClose, message }) => {
   const [titleOfPublications, setTitleOfPublications] = useState('')
   const [category, setCategory] = useState('')
   const [type, setType] = useState('')
+  const [selecteDocument, setSelectedDocument] = useState(null)
+
+  const handleDocumentChange = (e) => {
+    setSelectedDocument(e.target.files[0])
+  }
 
   const handleTitleChange = (event) => {
     setTitleOfPublications(event.target.value)
@@ -40,6 +49,37 @@ const AddPublicationsModal = ({ onClose, message }) => {
     setType(event.target.value)
   }
 
+  const handleDocumentUpload = async (e) => {
+    e.preventDefault()
+    if (selecteDocument) {
+      const formData = new FormData()
+
+      formData.append('title', titleOfPublications)
+      formData.append('category', category)
+      formData.append('publication', selecteDocument)
+
+      formData.append('type', type)
+
+      try {
+        await documentMutation.mutateAsync(formData)
+        setSelectedDocument(null) // Reset selected file after upload
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  const documentMutation = useMutation({
+    mutationFn: user.uploadPublications,
+    onSuccess: (data) => {
+      toast.success('Document uploaded successfully')
+    },
+    onError: (error) => {
+      console.error('Error:', error)
+      toast.error(error?.message || 'An error occurred during document upload')
+    },
+  })
+
   return (
     <Wrapper style={modalStyle}>
       <div style={contentStyle}>
@@ -49,7 +89,7 @@ const AddPublicationsModal = ({ onClose, message }) => {
             <IoMdClose />
           </button>
         </div>
-        <form>
+        <form onSubmit={handleDocumentUpload}>
           <label>
             Title of Publications
             <input
@@ -76,15 +116,20 @@ const AddPublicationsModal = ({ onClose, message }) => {
             </select>
           </label>
           <div class='custom-file-upload file'>
-            <input type='file' id='upload' />
+            <input type='file' id='upload' onChange={handleDocumentChange} />
             <RiFileListLine />
-            <label for='upload'>Choose File</label>
+            <label for='upload'>
+              {' '}
+              {selecteDocument ? 'File ready for upload' : 'Choose File'}{' '}
+            </label>
           </div>
           <p className='p-info'>
             You can upload files in (pdf,doc,docx,txt). Maximum file size is
             30mb.
           </p>
-          <button className='action-btn'>Upload Document</button>
+          <button className='action-btn' type='submit'>
+            Upload Document
+          </button>
         </form>
       </div>
     </Wrapper>

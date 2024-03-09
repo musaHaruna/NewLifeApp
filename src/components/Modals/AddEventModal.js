@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { RiFileListLine } from 'react-icons/ri'
+import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import user from '../../services/api/user'
 
 const AddEventModal = ({ onClose, message }) => {
   const modalStyle = {
@@ -25,25 +29,50 @@ const AddEventModal = ({ onClose, message }) => {
     borderRadius: '5px',
     padding: '1.5rem',
   }
+  const [title, setTitle] = useState('')
+  const [category, setCategory] = useState('group1') // default value for Category 1
+  const [eventDate, setEventDate] = useState('')
+  const [startTime, setStartTime] = useState('')
+  const [endTime, setEndTime] = useState('')
+  const [summary, setSummary] = useState('')
 
-  const [titleOfPublications, setTitleOfPublications] = useState('')
-  const [category, setCategory] = useState('')
-  const [type, setType] = useState('')
+  const [selectedDocument, setSelectedDocument] = useState(null)
 
-  const [titleOfEvent, setTitleOfEvent] = useState('')
-  const [eventType, setEventType] = useState('')
-
-  const handleTitleChange = (event) => {
-    setTitleOfEvent(event.target.value)
+  const handleDocumentChange = (e) => {
+    setSelectedDocument(e.target.files[0])
   }
 
-  const handleEventChange = (event) => {
-    setEventType(event.target.value)
+  const handleEventUpload = async (e) => {
+    e.preventDefault()
+    if (selectedDocument) {
+      const formData = new FormData()
+      formData.append('image', selectedDocument)
+      formData.append('title', title)
+      formData.append('type', category)
+      formData.append('eventDate', eventDate)
+      formData.append('startTime', startTime)
+      formData.append('endTime', endTime)
+      formData.append('summary', summary)
+
+      try {
+        await eventMutation.mutateAsync(formData)
+        setSelectedDocument(null) // Reset selected file after upload
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
-  const handleTypeChange = (event) => {
-    setType(event.target.value)
-  }
+  const eventMutation = useMutation({
+    mutationFn: user.uploadEvents,
+    onSuccess: (data) => {
+      toast.success('Document uploaded successfully')
+    },
+    onError: (error) => {
+      console.error('Error:', error)
+      toast.error(error?.message || 'An error occurred during document upload')
+    },
+  })
 
   return (
     <Wrapper style={modalStyle}>
@@ -54,53 +83,79 @@ const AddEventModal = ({ onClose, message }) => {
             <IoMdClose />
           </button>
         </div>
-        <form>
+        <form onSubmit={handleEventUpload}>
           <label>
             Title of Event
             <input
               type='text'
               placeholder='Enter title here'
-              value={titleOfEvent}
-              onChange={handleTitleChange}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </label>
           <label>
             Category
-            <select value={eventType} onChange={handleEventChange}>
-              <option value='group1'>Category 1</option>
-              <option value='group2'>Category 2</option>
-              <option value='group3'>Category 3</option>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value='group1'>Virtual</option>
+              <option value='group2'>On-site </option>
             </select>
           </label>
           <div className='event-flex'>
             <label>
               Event Date
-              <input type='date' />
+              <input
+                type='date'
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+              />
             </label>
-            <label>
+            <label className='event-time'>
               Event Time
               <div className='input-flex'>
-                <input type='text' placeholder='--:--' /> to
-                <input type='text' placeholder='--:--' />
+                <input
+                  type='text'
+                  placeholder='--:--'
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                />
+                to
+                <input
+                  type='text'
+                  placeholder='--:--'
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                />
               </div>
             </label>
           </div>
           <label className='summary-text'>
             Summary of text
             <p>Summary can include every details of the event.</p>
-            <textarea type='text' placeholder='Write here' />
+            <textarea
+              type='text'
+              placeholder='Write here'
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+            />
           </label>
 
           <div class='custom-file-upload file'>
-            <input type='file' id='upload' />
+            <input type='file' id='upload' onChange={handleDocumentChange} />
             <RiFileListLine />
-            <label for='upload'>Choose File</label>
+            <label for='upload'>
+              {selectedDocument ? 'File ready for upload' : 'Choose file'}
+            </label>
           </div>
           <p className='p-info'>
             You can upload cover photo/ flyer in (jpg, png). Maximum file size
             is 10mb.
           </p>
-          <button className='action-btn'>Add Event</button>
+          <button className='action-btn' type='sumbit'>
+            Add Event
+          </button>
         </form>
       </div>
     </Wrapper>

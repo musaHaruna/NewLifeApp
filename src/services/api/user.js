@@ -155,6 +155,8 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+
+  // Get all events
   getEvents = async () => {
     try {
       const response = await api.get(`/api/users/events`)
@@ -164,6 +166,7 @@ class UserOBJ {
     }
   }
 
+  // Upload document
   uploadDocument = async (formData) => {
     try {
       const response = await api.post(`/api/admin/documents`, formData, {
@@ -177,6 +180,8 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+
+  //Upload photo
   uploadPhoto = async (formData) => {
     try {
       const response = await api.post(`/api/admin/photos`, formData, {
@@ -191,6 +196,7 @@ class UserOBJ {
     }
   }
 
+  //Upload useful-links
   uploadUsefullLinks = async (data) => {
     try {
       // Check if data is not empty
@@ -198,6 +204,34 @@ class UserOBJ {
       const response = await api.post('api/admin/useful-links', data)
       return response.data
     } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Upload publications
+  uploadPublications = async (formData) => {
+    try {
+      const response = await api.post(`/api/admin/publications`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
+  uploadEvents = async (formData) => {
+    try {
+      const response = await api.post(`/api/admin/events`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      return response.data
+    } catch (err) {
+      console.log(err)
       throw err?.response?.data || err.message
     }
   }

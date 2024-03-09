@@ -153,12 +153,13 @@ const Wrapper = styled.article`
   .input-flex {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border: 1px solid #b7b4b4;
   }
 
   .input-flex input {
     border: none;
-    width: 30%;
+    width: 60%;
     margin: none;
     display: inline-block;
   }

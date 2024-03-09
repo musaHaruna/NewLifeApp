@@ -44,7 +44,7 @@ const AddDocumentModal = ({ onClose, message }) => {
   const handleDocumentTitleChange = (event) => {
     setDocumentTitle(event.target.value)
   }
-  const [selectedVisibility, setSelectedVisibility] = useState('public')
+  const [selectedVisibility, setSelectedVisibility] = useState('')
 
   const handleVisibilityChange = (event) => {
     setSelectedVisibility(event.target.value)

@@ -159,6 +159,10 @@ const Wrapper = styled.main`
     width: 100%;
   }
 
+.table-link {
+  color: var(--primary-blue);
+}
+
   .usefull-links {
     display: flex;
     gap: 1rem;

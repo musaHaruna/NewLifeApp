@@ -44,7 +44,8 @@ const Documents = () => {
     queryFn: user.getDocuments,
   })
 
-  console.log(documents.isSuccess)
+  const data = documents?.data?.documents
+  console.log(documents?.data?.documents)
   {
     return (
       <section className='tcontainer-wrapper'>
@@ -59,6 +60,9 @@ const Documents = () => {
                   Name
                 </TableCell>
                 <TableCell className='thead' align='left'>
+                  File
+                </TableCell>
+                <TableCell className='thead' align='left'>
                   Group
                 </TableCell>
                 <TableCell className='thead' align='left'>
@@ -67,29 +71,37 @@ const Documents = () => {
                 <TableCell className='thead' align='left'>
                   Date Uploaded
                 </TableCell>
-                <TableCell className='thead' align='left'>
-                  Action
-                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {data?.map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell className='tcell icon' component='th' scope='row'>
-                    <p> {row.icon}</p>
+                  <TableCell className='tcell' align='left'>
                     {row.name}
                   </TableCell>
+                  <TableCell className='tcell icon' component='th' scope='row'>
+                    <p> {<HiOutlineDocumentText />}</p>
+                    {
+                      <span>
+                        {new Date(row.createdAt).toLocaleDateString()} by{' '}
+                        {row.createdBy.full_name} <br />
+                        <a className='table-link' href={row.file.url} target='blank'>
+                          {row.file.url.substring(0, 30)}
+                        </a>
+                      </span>
+                    }
+                  </TableCell>
                   <TableCell className='tcell' align='left'>
-                    {row.group}
+                    {row.group ? '' : 'Nill'}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
                     {row.visibility}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
-                    {row.dateUploaded}
+                    {new Date(row.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
                     {row.action}

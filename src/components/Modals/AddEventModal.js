@@ -65,6 +65,7 @@ const AddEventModal = ({ onClose, message }) => {
 
   const eventMutation = useMutation({
     mutationFn: user.uploadEvents,
+    queryKey: ['get-upload-events'],
     onSuccess: (data) => {
       toast.success('Document uploaded successfully')
     },

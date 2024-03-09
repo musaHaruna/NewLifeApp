@@ -48,6 +48,7 @@ const AddUsefulLinks = ({ onClose, message }) => {
 
   const mutation = useMutation({
     mutationFn: user.uploadUsefullLinks,
+    queryKey: ['get-usefull-links'],
     onSuccess: (data) => {
       toast.success('Link Added')
     },

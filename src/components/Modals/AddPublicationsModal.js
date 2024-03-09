@@ -71,6 +71,7 @@ const AddPublicationsModal = ({ onClose, message }) => {
 
   const documentMutation = useMutation({
     mutationFn: user.uploadPublications,
+    queryKey: ['get-publications'],
     onSuccess: (data) => {
       toast.success('Document uploaded successfully')
     },

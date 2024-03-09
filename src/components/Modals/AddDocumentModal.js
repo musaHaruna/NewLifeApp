@@ -70,6 +70,7 @@ const AddDocumentModal = ({ onClose, message }) => {
 
   const documentMutation = useMutation({
     mutationFn: user.uploadDocument,
+    queryKey: ['get-documents'],
     onSuccess: (data) => {
       toast.success('Document uploaded successfully')
     },

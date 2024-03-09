@@ -173,6 +173,10 @@ const Wrapper = styled.main`
   .btn-primary.load-more {
     margin: 3rem auto;
   }
+
+  .tcontainer-wrapper.bg-white {
+    background-color: #fff;
+  }
 `
 
 export default Wrapper

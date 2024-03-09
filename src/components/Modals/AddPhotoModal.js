@@ -52,6 +52,7 @@ const AddPhotoModal = ({ onClose, message }) => {
 
   const documentMutation = useMutation({
     mutationFn: user.uploadPhoto,
+    queryKey: ['get-photos'],
     onSuccess: (data) => {
       toast.success('Photo uploaded successfully')
     },

@@ -222,6 +222,8 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+
+  //Upload events
   uploadEvents = async (formData) => {
     try {
       const response = await api.post(`/api/admin/events`, formData, {

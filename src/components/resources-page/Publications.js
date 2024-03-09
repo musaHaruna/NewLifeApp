@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { Paper } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
+import user from '../../services/api/user'
 
 const rows = [
   {
@@ -37,6 +39,14 @@ const rows = [
 ]
 
 const Publications = () => {
+  const getLinks = useQuery({
+    queryKey: ['get-usefull-links'],
+    queryFn: user.getPublications,
+  })
+
+  const data = getLinks?.data?.publications
+  console.log(data)
+
   {
     return (
       <section className='tcontainer-wrapper'>
@@ -51,6 +61,9 @@ const Publications = () => {
                   Name
                 </TableCell>
                 <TableCell className='thead' align='left'>
+                  File
+                </TableCell>
+                <TableCell className='thead' align='left'>
                   Group
                 </TableCell>
                 <TableCell className='thead' align='left'>
@@ -59,20 +72,32 @@ const Publications = () => {
                 <TableCell className='thead' align='left'>
                   Date Uploaded
                 </TableCell>
-                <TableCell className='thead' align='left'>
-                  Action
-                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {data?.map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
+                  <TableCell className='tcell' align='left'>
+                    {row.title}
+                  </TableCell>
                   <TableCell className='tcell icon' component='th' scope='row'>
-                    <p> {row.icon}</p>
-                    {row.name}
+                    <p> {<HiOutlineDocumentText />}</p>
+                    {
+                      <span>
+                        {new Date(row.createdAt).toLocaleDateString()} by{' '}
+                        {row.createdBy.full_name} <br />
+                        <a
+                          className='table-link'
+                          href={row.file.url}
+                          target='blank'
+                        >
+                          {row.file.url.substring(0, 30)}
+                        </a>
+                      </span>
+                    }
                   </TableCell>
                   <TableCell className='tcell' align='left'>
                     {row.category}
@@ -81,7 +106,7 @@ const Publications = () => {
                     {row.type}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
-                    {row.dateUploaded}
+                    {new Date(row.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell className='tcell' align='left'>
                     {row.action}

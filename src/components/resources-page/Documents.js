@@ -88,7 +88,11 @@ const Documents = () => {
                       <span>
                         {new Date(row.createdAt).toLocaleDateString()} by{' '}
                         {row.createdBy.full_name} <br />
-                        <a className='table-link' href={row.file.url} target='blank'>
+                        <a
+                          className='table-link'
+                          href={row.file.url}
+                          target='blank'
+                        >
                           {row.file.url.substring(0, 30)}
                         </a>
                       </span>

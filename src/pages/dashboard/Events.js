@@ -9,10 +9,24 @@ import { RiHotspotLine } from 'react-icons/ri'
 import { BsImage } from 'react-icons/bs'
 import { BsCalendar2Event } from 'react-icons/bs'
 import AddEventModal from '../../components/Modals/AddEventModal'
+import { useQuery } from '@tanstack/react-query'
+import user from '../../services/api/user'
+
+const events = [
+  {
+    date: 'April 2021',
+    time: '11:00AM - 2:00PM EST',
+    title: 'NELRIF April Scholarship Conference',
+    eventType: 'Virtual Event',
+    summary: 'Summary of events goes here....',
+  },
+  // Add more events as needed
+]
 
 const Events = () => {
   const [activeTab, setActiveTab] = useState('all-members')
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
+  const options = { month: 'long', day: 'numeric' }
 
   const openAddEventModal = () => {
     setIsAddEventModalOpen(true)
@@ -21,6 +35,14 @@ const Events = () => {
   const closeAddEventModal = () => {
     setIsAddEventModalOpen(false)
   }
+
+  const getEvents = useQuery({
+    queryKey: ['get-upload-events'],
+    queryFn: user.getEvents,
+  })
+
+  const data = getEvents?.data?.events
+  console.log(data)
 
   return (
     <Wrapper>
@@ -58,38 +80,28 @@ const Events = () => {
 
         <section className='event-container'>
           <section>
-            <div className='event-date'>
-              <p>April 2023</p>
-              <div className='line'></div>
-            </div>
-            <section className='events'>
-              <div className='event-content'>
-                <p>April 2021 - 11:00AM - 2:00PM EST</p>
-                <h5>NELRIF April Scholarship Conference</h5>
-                <div className='virtual-event'>
-                  <RiHotspotLine className='icon' />
-                  <p>Vitual Event</p>
+            {data.map((event, index) => (
+              <section className='events' key={index}>
+                <div className='event-content'>
+                  <p>
+                    {new Date(event.eventDate).toLocaleDateString(
+                      'en-US',
+                      options
+                    )}{' '}
+                    - {event.startTime} - {event.endTime} WAT
+                  </p>
+                  <h5>{event.title}</h5>
+                  <div className='virtual-event'>
+                    <RiHotspotLine className='icon' />
+                    <p>{event.type}</p>
+                  </div>
+                  <p className='summary'>{event.summary}</p>
                 </div>
-                <p className='summary'>Summary of events goes here....</p>
-              </div>
-              <div className='picture'>
-                <BsImage />
-              </div>
-            </section>
-            <section className='events'>
-              <div className='event-content'>
-                <p>April 2021 - 11:00AM - 2:00PM EST</p>
-                <h5>NELRIF April Scholarship Conference</h5>
-                <div className='virtual-event'>
-                  <RiHotspotLine className='icon' />
-                  <p>Vitual Event</p>
+                <div className='picture'>
+                  <img src={event.file.url} alt='' />
                 </div>
-                <p className='summary'>Summary of events goes here....</p>
-              </div>
-              <div className='picture'>
-                <BsImage />
-              </div>
-            </section>
+              </section>
+            ))}
           </section>
         </section>
       </article>

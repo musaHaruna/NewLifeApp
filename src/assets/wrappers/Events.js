@@ -108,7 +108,18 @@ const Wrapper = styled.main`
     border: 1.5px solid #b7b4b4;
   }
   .picture {
-    font-size: 100px;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+
+  .picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .event-container {
@@ -171,9 +182,9 @@ const Wrapper = styled.main`
   }
 
   .nav-btns {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .btn-primary button {

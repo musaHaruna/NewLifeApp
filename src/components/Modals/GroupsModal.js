@@ -124,7 +124,7 @@ const GroupsModal = ({ isOpen, onClose }) => {
                   width={20}
                 />
               ) : (
-                <>Save</>
+                <>Create Group</>
               )}
             </button>
           </div>

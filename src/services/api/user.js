@@ -254,7 +254,7 @@ class UserOBJ {
   addForum = async (data) => {
     try {
       // Check if data is not empty
-      const response = await api.post('api/admin/groups', data)
+      const response = await api.post('api/admin/forums', data)
       return response.data
     } catch (err) {
       throw err?.response?.data || err.message

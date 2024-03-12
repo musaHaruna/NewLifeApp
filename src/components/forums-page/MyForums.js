@@ -1,6 +1,10 @@
 import group from '../../assets/images/group-img.png'
 import emptystate from '../../assets/images/empty-state.png'
 import { MdOutlineCheckBox } from 'react-icons/md'
+import userService from '../../services/api/user'
+import { useQuery } from '@tanstack/react-query'
+import forumImg from '../../assets/images/group-img.png'
+import SkeletonArticle from '../skeletons/SkeletonArticle'
 
 const MyForums = () => {
   const data = 1
@@ -14,29 +18,25 @@ const MyForums = () => {
     // Add more objects as needed
   ]
 
+  const forums = useQuery({
+    queryKey: ['get-forum'],
+    queryFn: userService.getForums,
+  })
+
   return (
     <article className='forums'>
-      {data === 0 ? (
-        <article className='all-groups none'>
-          <div className='no-forum-container'>
-            <div className='no-forum'>
-              <img src={emptystate} alt='no-forums' />
-            </div>
-            <p>You do not belong to any forum</p>
-            <p>Create a forum or request to join an existing one</p>
-          </div>
-        </article>
+      {forums.isPending ? (
+        [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
       ) : (
         <article className='all-groups'>
           <section>
-            {data2.map((item, index) => (
+            {forums?.data?.map((item, index) => (
               <div className='content' key={index}>
                 <div className='img'>
-                  <img src={item.imgSrc} alt={`group-img-${index}`} />
+                  <img src={forumImg} alt={`group-img-${index}`} />
                 </div>
                 <div>
-                  <h5>{item.title}</h5>
-                  <p>{item.membersCount}</p>
+                  <h5>{item.name}</h5>
                   <p>{item.description}</p>
                 </div>
               </div>
@@ -48,6 +48,7 @@ const MyForums = () => {
           </section>
         </article>
       )}
+      {forums.isError && <p>An Error Occured</p>}
     </article>
   )
 }

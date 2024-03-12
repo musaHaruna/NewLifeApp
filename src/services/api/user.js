@@ -166,6 +166,36 @@ class UserOBJ {
     }
   }
 
+  // Get all groups
+  getGroups = async () => {
+    try {
+      const response = await api.get(`/api/users/groups`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Get Forums
+  getForums = async () => {
+    try {
+      const response = await api.get(`/api/users/forums`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  // Get Fundings
+  getFundings = async () => {
+    try {
+      const response = await api.get(`/api/users/fundings`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
   // Upload document
   uploadDocument = async (formData) => {
     try {
@@ -276,21 +306,17 @@ class UserOBJ {
     }
   }
 
-  //Make group Admin
-  // makeGroupAdmin = async (group, name, privacy, description) => {
-  //   try {
-  //     // Check if data is not empty
+  makeGroupAdmin = async (params, data) => {
+    try {
+      // Check if data is not empty
 
-  //     const response = await api.put(`api/admin/groups/${group}`, {
-  //       name,
-  //       privacy,
-  //       description,
-  //     })
-  //     return response.data
-  //   } catch (err) {
-  //     throw err?.response?.data || err.message
-  //   }
-  // }
+      const response = await api.put(`api/admin/groups/${params}`, data)
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
 
   //Forum Members
   addForumMember = async (forum, data) => {

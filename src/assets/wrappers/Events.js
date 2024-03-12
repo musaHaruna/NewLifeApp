@@ -139,6 +139,7 @@ const Wrapper = styled.main`
     height: 100px;
     border-radius: 10px;
     overflow: hidden;
+    margin: 1rem 0;
   }
 
   .picture img {

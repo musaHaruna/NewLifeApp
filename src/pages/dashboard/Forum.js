@@ -6,6 +6,7 @@ import { useState } from 'react'
 import ForumModal from '../../components/Modals/ForumModal'
 import ForumRequest from '../../components/forums-page/ForumRequest'
 
+
 const Forum = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('Photos')
@@ -17,6 +18,9 @@ const Forum = () => {
   const closeModal = () => {
     setIsModalOpen(false)
   }
+
+
+
   return (
     <Wrapper>
       <ForumModal isOpen={isModalOpen} onClose={closeModal} />

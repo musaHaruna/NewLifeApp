@@ -17,7 +17,6 @@ const Groups = () => {
   const { user } = useSelector((store) => store.user);
   console.log(user)
 
-
   const openModal = () => {
     setIsModalOpen(true)
   }

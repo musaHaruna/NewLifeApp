@@ -245,6 +245,7 @@ class UserOBJ {
       const response = await api.post('api/admin/groups', data)
       return response.data
     } catch (err) {
+      console.log(err)
       throw err?.response?.data || err.message
     }
   }
@@ -276,16 +277,20 @@ class UserOBJ {
   }
 
   //Make group Admin
-  makeGroupAdmin = async (group, data) => {
-    try {
-      // Check if data is not empty
+  // makeGroupAdmin = async (group, name, privacy, description) => {
+  //   try {
+  //     // Check if data is not empty
 
-      const response = await api.put(`api/admin/groups/${group}`, data)
-      return response.data
-    } catch (err) {
-      throw err?.response?.data || err.message
-    }
-  }
+  //     const response = await api.put(`api/admin/groups/${group}`, {
+  //       name,
+  //       privacy,
+  //       description,
+  //     })
+  //     return response.data
+  //   } catch (err) {
+  //     throw err?.response?.data || err.message
+  //   }
+  // }
 
   //Forum Members
   addForumMember = async (forum, data) => {

@@ -12,6 +12,11 @@ const Wrapper = styled.article`
     text-align: center;
   }
 
+  textarea {
+    display: block;
+    width: 100%;
+  }
+
   button {
     display: block;
     border: none;

@@ -237,6 +237,67 @@ class UserOBJ {
       throw err?.response?.data || err.message
     }
   }
+
+  //Create Group
+  createGroup = async (data) => {
+    try {
+      // Check if data is not empty
+      const response = await api.post('api/admin/groups', data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Add forum
+  addForum = async (data) => {
+    try {
+      // Check if data is not empty
+      const response = await api.post('api/admin/groups', data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Add fundings
+  addFundings = async (formData) => {
+    try {
+      const response = await api.post(`api/admin/fundings`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Make group Admin
+  makeGroupAdmin = async (group, data) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/admin/groups/${group}`, data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
+  //Forum Members
+  addForumMember = async (forum, data) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/admin/forums/${forum}`, data)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
 }
 
 const user = new UserOBJ()

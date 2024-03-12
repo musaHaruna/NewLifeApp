@@ -29,10 +29,7 @@ const Resources = () => {
     useState(false)
   const [isAddUsefulLinksModalOpen, setIsAddUsefulLinksModalOpen] =
     useState(false)
-  const [selecteDocument, setSelectedDocument] = useState(null)
-  const handleDocumentChange = (e) => {
-    setSelectedDocument(e.target.files[0])
-  }
+  
 
   const openAddDocumentModal = () => {
     setIsAddDocumentModalOpen(true)
@@ -66,33 +63,7 @@ const Resources = () => {
     setIsAddUsefulLinksModalOpen(false)
   }
 
-  const handleDocumentUpload = async () => {
-    if (selecteDocument) {
-      const formData = new FormData()
-      formData.append('document', selecteDocument)
-      formData.append('name', 'Machine Learning')
-      formData.append('group', '65df41fbcd5c97c1ab22b042')
-      formData.append('visibilty', 'public')
 
-      try {
-        await documentMutation.mutateAsync(formData)
-        selecteDocument(null) // Reset selected file after upload
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
-  const documentMutation = useMutation({
-    mutationFn: user.uploadDocument,
-    onSuccess: (data) => {
-      toast.success('Document uploaded successfully')
-    },
-    onError: (error) => {
-      console.error('Error:', error)
-      toast.error(error?.message || 'An error occurred during document upload')
-    },
-  })
   return (
     <Wrapper>
       {isAddDocumentModalOpen && (

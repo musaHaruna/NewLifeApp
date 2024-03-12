@@ -6,15 +6,49 @@ import {
   IoIosArrowBack,
 } from 'react-icons/io'
 import { RiHotspotLine } from 'react-icons/ri'
+import { CiSearch } from 'react-icons/ci'
+import { CgAddR } from 'react-icons/cg'
 import { BsImage } from 'react-icons/bs'
+import AddFundingModal from '../../components/Modals/AddFundingModal'
 
 const Fundings = () => {
   const [activeTab, setActiveTab] = useState('all-members')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isAddFundingModalOpen, setIsAddFundingModalOpen] = useState(false)
+  const closeAddFundingModal = () => {
+    setIsAddFundingModalOpen(false)
+  }
+
+  const openAddFundingModal = () => {
+    setIsAddFundingModalOpen(true)
+  }
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
 
   return (
     <Wrapper>
+      {isAddFundingModalOpen && (
+        <AddFundingModal onClose={closeAddFundingModal} />
+      )}
+
       <article className='tab-content'>
         <h2>Fundings</h2>
+        <div className='photos-search'>
+          <div className='search'>
+            <CiSearch className='search-icon' />
+            <input type='text' placeholder='Search funding' />
+          </div>
+          <div className='btn-primary '>
+            <CgAddR className='icon' />
+            <button onClick={openAddFundingModal}>Create New Forum</button>
+          </div>
+        </div>
       </article>
 
       <article className='members-container'>

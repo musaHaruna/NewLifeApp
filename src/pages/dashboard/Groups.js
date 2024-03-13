@@ -15,6 +15,7 @@ const Groups = () => {
   const [activeTab, setActiveTab] = useState('Photos')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useSelector((store) => store.user);
+  console.log(user)
 
   const openModal = () => {
     setIsModalOpen(true)

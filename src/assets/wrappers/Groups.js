@@ -8,6 +8,13 @@ const Wrapper = styled.main`
     margin-bottom: 2rem;
   }
 
+  .flex {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 35%;
+  }
+
   .tab-content h2 {
     color: var(--primary-blue);
     font-size: 30px;
@@ -202,6 +209,14 @@ const Wrapper = styled.main`
     background-color: #fff;
   }
 
+  .all-groups section.flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .all-groups section section {
+    width: 100%;
+  }
   .all-groups section {
     display: flex;
     align-items: center;

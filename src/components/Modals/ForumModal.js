@@ -4,9 +4,23 @@ import Wrapper from '../../assets/wrappers/GroupsModal'
 import { CgCloseR } from 'react-icons/cg'
 import { useState } from 'react'
 import SuccessModal from './SuccessModal'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
+import { RotatingLines } from 'react-loader-spinner'
+import userService from '../../services/api/user'
 
 const ForumModal = ({ isOpen, onClose }) => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value)
+  }
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value)
+  }
 
   const openSuccessModal = (e) => {
     e.preventDefault()
@@ -16,11 +30,41 @@ const ForumModal = ({ isOpen, onClose }) => {
     setIsSuccessModalOpen(false)
     onClose()
   }
+
+  const mutation = useMutation({
+    mutationFn: userService.addForum,
+    onSuccess: (data) => {
+      setIsSuccessModalOpen(true)
+    },
+    onError: (error) => {
+      toast.error('Error')
+    },
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!title) {
+      toast.error('Title is required')
+      return
+    }
+
+    if (!description) {
+      toast.error('Description is required')
+      return
+    }
+    // If there are no validation errors, submit the form
+    mutation.mutate({
+      name: title,
+      description,
+    })
+    setTitle('')
+    setDescription('')
+  }
   return (
     <GenericModal isOpen={isOpen} onClose={onClose}>
       <Wrapper>
         <div className='heading'>
-          <h3>Create a forum</h3>
+          <h3>Create a Forum</h3>
           <CgCloseR onClick={onClose} className='icon' />
         </div>
 
@@ -31,26 +75,40 @@ const ForumModal = ({ isOpen, onClose }) => {
             maximum of 72 hours
           </p>
           <div>
-            <label>Title of forum</label>
-            <input type='text' placeholder='Enter title here' />
+            <label>Title of Forum</label>
+            <input
+              type='text'
+              placeholder='Enter title here'
+              value={title}
+              onChange={handleTitleChange}
+            />
             <p className='error'></p>
           </div>
           <div>
-            <label>Privacy</label>
-            <select>
-              <option value='Select privacy'>Select privacy</option>
-              <option value='Public'>Public</option>
-              <option value='Private'>Private</option>
-            </select>
-          </div>
-          <div>
             <label>Description (What will the forum be about)</label>
-            <textarea type='text' placeholder='Enter title here' />
+            <textarea
+              type='text'
+              placeholder='Enter title here'
+              value={description}
+              onChange={handleDescriptionChange}
+            />
             <p>0/2000</p>
             <p className='error'></p>
           </div>
           <div className='btn'>
-            <button onClick={openSuccessModal}>Create Group</button>
+            <button onClick={handleSubmit}>
+              {' '}
+              {mutation.isPending ? (
+                <RotatingLines
+                  type='Oval'
+                  style={{ color: '#FFF' }}
+                  height={20}
+                  width={20}
+                />
+              ) : (
+                <>Create Forum</>
+              )}
+            </button>
           </div>
         </form>
         {isSuccessModalOpen ? (

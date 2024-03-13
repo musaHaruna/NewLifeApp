@@ -10,6 +10,20 @@ const Wrapper = styled.article`
     color: #1e1e1e;
   }
 
+  .card {
+    margin: 1rem 0;
+    width: 40%;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #34a853;
+    color: #fff;
+    border: none;
+    display: block;
+  }
+
   .heading h3 {
     font-weight: 400;
   }

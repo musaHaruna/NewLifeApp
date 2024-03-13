@@ -27,6 +27,33 @@ const Wrapper = styled.main`
     padding: 1.5rem;
   }
 
+  .search input {
+    width: 100%;
+    border: none;
+    font-size: 14px;
+  }
+
+  .photos-search .search {
+    width: 60%;
+  }
+
+  .photos-search {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    width: 60%;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    background-color: #fff;
+    padding: 0.5rem;
+    border-radius: 10px;
+  }
+
   .tabs div {
     display: flex;
     align-items: center;
@@ -112,8 +139,8 @@ const Wrapper = styled.main`
     height: 100px;
     border-radius: 10px;
     overflow: hidden;
+    margin: 1rem 0;
   }
-  
 
   .picture img {
     width: 100%;

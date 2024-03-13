@@ -15,8 +15,6 @@ const Groups = () => {
   const [activeTab, setActiveTab] = useState('Photos')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { user } = useSelector((store) => store.user);
-  console.log(user)
-
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -25,6 +23,7 @@ const Groups = () => {
   const closeModal = () => {
     setIsModalOpen(false)
   }
+
 
   return (
     <Wrapper>
@@ -37,10 +36,14 @@ const Groups = () => {
             <CiSearch className='search-icon' />
             <input type='text' placeholder='Search groups' />
           </div>
-          <div className='btn-primary' onClick={openModal}>
-            <CgAddR className='icon' />
-            <button onClick={openModal}>Create New Group</button>
-          </div>
+          {
+            (user.userType === "admin" || user.userType === "super-admin") &&
+            <div className='btn-primary' onClick={openModal}>
+              <CgAddR className='icon' />
+              <button onClick={openModal}>Create New Group</button>
+            </div>
+          }
+
         </div>
       </article>
 
@@ -63,15 +66,20 @@ const Groups = () => {
                 My Groups <span className='number-grey'> 1</span>
               </h4>
             </div>
-            <div
-              onClick={() => setActiveTab('group-request')}
-              className={`tab-btn ${activeTab === 'group-request' ? 'active' : ''
-                }`}
-            >
-              <h4>
-                Group Request <span className='number-grey'> 3</span>
-              </h4>
-            </div>
+
+            {
+              (user.userType === "admin" || user.userType === "super-admin") &&
+              <div
+                onClick={() => setActiveTab('group-request')}
+                className={`tab-btn ${activeTab === 'group-request' ? 'active' : ''
+                  }`}
+              >
+                <h4>
+                  Group Request <span className='number-grey'> 3</span>
+                </h4>
+              </div>
+            }
+
           </div>
           <div className='displays'>
             <div>

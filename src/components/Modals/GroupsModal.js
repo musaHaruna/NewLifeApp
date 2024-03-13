@@ -4,9 +4,31 @@ import Wrapper from '../../assets/wrappers/GroupsModal'
 import { CgCloseR } from 'react-icons/cg'
 import { useState } from 'react'
 import SuccessModal from './SuccessModal'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import adminService from '../../services/api/admin';
+import { toast } from 'react-toastify'
+import ConfirmationModal from './ConfirmationModal'
 
 const GroupsModal = ({ isOpen, onClose }) => {
+  const queryClient = useQueryClient();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const [formData, setFormData] = useState({
+    name: '',
+    privacy: '',
+    description: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
+
+  const openConfirmModal = () => {
+    setConfirmModalOpen(true);
+  };
+
+  const closeConfirmModal = () => {
+    setConfirmModalOpen(false);
+  };
 
   const openSuccessModal = (e) => {
     e.preventDefault()
@@ -16,6 +38,45 @@ const GroupsModal = ({ isOpen, onClose }) => {
     setIsSuccessModalOpen(false)
     onClose()
   }
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: adminService.createGroup,
+    onSuccess: (data) => {
+      // toas.success(data.message);
+      queryClient.invalidateQueries(['groups']);
+      openSuccessModal();
+    },
+    onError: (error) => {
+      console.error('Login error:', error);
+      toast.error(error?.message);
+    },
+  });
+
+  const handleSubmit = () => {
+    setMessage(`Are you sure you want to create group?`);
+    openConfirmModal();
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    // Perform your form validation here
+    // For simplicity, let's assume all fields are required
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key]) {
+        errors[key] = 'This field is required';
+      }
+    });
+    return errors;
+  };
+
   return (
     <GenericModal isOpen={isOpen} onClose={onClose}>
       <Wrapper>
@@ -50,12 +111,16 @@ const GroupsModal = ({ isOpen, onClose }) => {
             <p className='error'></p>
           </div>
           <div className='btn'>
-            <button onClick={openSuccessModal}>Create Group</button>
+            <button onClick={handleSubmit}>Create Group</button>
           </div>
         </form>
         {isSuccessModalOpen ? (
           <SuccessModal onClose={closeSuccessModal} />
         ) : null}
+
+        {confirmModalOpen && (
+          <ConfirmationModal onClose={closeConfirmModal} action={mutate} isLoading={isPending} message={message} />
+        )}
       </Wrapper>
     </GenericModal>
   )

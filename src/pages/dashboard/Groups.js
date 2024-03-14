@@ -32,8 +32,7 @@ const Groups = () => {
   }
 
   useEffect(() => {
-    console.log(data.filter(item => item.members.some(member => member.user === user._id && member.status === "approved")))
-    setMyGroups(data.filter(item => item.members.some(member => member.user === user._id && member.status === "approved")))
+    setMyGroups(data?.filter(item => item?.privacy === "public" || item.members.some(member => member.user === user._id && member.status === "approved")))
 
     return () => { }
   }, [data])

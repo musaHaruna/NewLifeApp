@@ -13,8 +13,8 @@ const MyGroups = ({ groups }) => {
               <img src={groupImg} alt={`group-img-${index}`} />
             </div>
             <div>
-              <h5>{item.title}</h5>
-              <p>{item.members?.length}</p>
+              <h5>{item.name}</h5>
+              <p>{item?.privacy === "public" ? "All" : item.members?.length} Members</p>
               <p>{item.description}</p>
             </div>
           </div>

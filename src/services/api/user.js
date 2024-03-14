@@ -318,6 +318,18 @@ class UserOBJ {
     }
   }
 
+  joinGroup = async (groupId) => {
+    try {
+      // Check if data is not empty
+
+      const response = await api.put(`api/users/groups/${groupId}/join`)
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
+
   //Forum Members
   addForumMember = async (forum, data) => {
     try {

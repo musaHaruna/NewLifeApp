@@ -1,36 +1,67 @@
 import group from '../../assets/images/group-img.png'
 import { MdOutlineCheckBox } from 'react-icons/md'
 import { MdOutlineAddBox } from 'react-icons/md'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import GroupApprovalModal from '../Modals/GroupApprovalModal'
 
 import { useSelector } from 'react-redux';
 import groupImg from '../../../src/assets/images/group-img.png'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
+import userService from '../../services/api/user';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import ConfirmationModal from '../Modals/ConfirmationModal'
+import { toast } from 'react-toastify'
 
 const AllGroups = ({ groups, isPending, isError }) => {
   const { user } = useSelector((store) => store.user);
-  console.log(groups, "group")
-  const data = [
-    {
-      imgSrc: group,
-      title: 'New members Questions and Answers',
-      membersCount: '12,003 Members',
-      description: 'All Questions concerning our platform can be asked here',
-    },
-    // Add more objects as needed
-  ]
-
-
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedGroup, setSelectedGroup] = useState(null)
+  const [message, setMessage] = useState('');
+
+  const openConfirmModal = () => {
+    setConfirmModalOpen(true);
+  };
+
+  const closeConfirmModal = () => {
+    setConfirmModalOpen(false);
+  };
 
   const openModal = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
+  };
+
+  const joinGroup = (groupId) => {
+    setSelectedGroup(groupId)
+    setMessage("Are you sure you want to join this group?")
+    openConfirmModal()
   }
+
+  const mutation = useMutation({
+    mutationFn: userService.joinGroup,
+    onSuccess: (data) => {
+      toast.success(data.message);
+      setSelectedGroup(null)
+      queryClient.invalidateQueries(['get-groups']);
+      closeConfirmModal();
+    },
+    onError: (error) => {
+      console.error('Login error:', error);
+      toast.error(error?.error);
+      toast.error(error?.message);
+      toast.error(error);
+    },
+  });
+  useEffect(() => {
+    console.log(groups)
+    console.log(user)
+  }, [groups])
+
 
   return (
     <article className='all-groups'>
@@ -39,7 +70,7 @@ const AllGroups = ({ groups, isPending, isError }) => {
       <section className='flex-column'>
         <>
           {groups?.map((item, index) => (
-            <section>
+            <section key={index}>
               {isModalOpen && (
                 <GroupApprovalModal
                   createdBy={item.createdBy}
@@ -54,7 +85,7 @@ const AllGroups = ({ groups, isPending, isError }) => {
                 </div>
                 <div>
                   <h5>{item.name}</h5>
-                  <p>{item.members?.length} Members</p>
+                  <p>{item?.privacy === "public" ? "All" : item.members?.length} Members</p>
                   <p>{item.description}</p>
                 </div>
               </div>
@@ -64,11 +95,15 @@ const AllGroups = ({ groups, isPending, isError }) => {
                     <button className='member'>
                       <MdOutlineCheckBox className='icon' />
                       Member
-                    </button> :
-                    <button className='member'>
-                      <MdOutlineCheckBox className='icon' />
-                      Join group
-                    </button>
+                    </button> : item.members.some(member => member.user === user._id && member.status === "pending") ?
+                      <button className='member'>
+                        <MdOutlineCheckBox className='icon' />
+                        Request Sent
+                      </button> :
+                      <button className='member' onClick={() => joinGroup(item._id)}>
+                        <MdOutlineCheckBox className='icon' />
+                        Join group
+                      </button>
                 }
 
                 <button className='member' onClick={openModal}>
@@ -81,6 +116,9 @@ const AllGroups = ({ groups, isPending, isError }) => {
         </>
       </section>
       {isError && <p>An Error Occured</p>}
+      {confirmModalOpen && (
+        <ConfirmationModal onClose={closeConfirmModal} action={() => mutation.mutate(selectedGroup)} isLoading={mutation?.isPending} message={message} />
+      )}
     </article>
   )
 }

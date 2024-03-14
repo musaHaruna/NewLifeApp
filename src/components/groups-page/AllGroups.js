@@ -3,12 +3,14 @@ import { MdOutlineCheckBox } from 'react-icons/md'
 import { MdOutlineAddBox } from 'react-icons/md'
 import { useState } from 'react'
 import GroupApprovalModal from '../Modals/GroupApprovalModal'
-import userService from '../../services/api/user'
-import { useQuery } from '@tanstack/react-query'
+
+import { useSelector } from 'react-redux';
 import groupImg from '../../../src/assets/images/group-img.png'
 import SkeletonArticle from '../skeletons/SkeletonArticle'
 
-const AllGroups = () => {
+const AllGroups = ({ groups, isPending, isError }) => {
+  const { user } = useSelector((store) => store.user);
+  console.log(groups, "group")
   const data = [
     {
       imgSrc: group,
@@ -19,12 +21,7 @@ const AllGroups = () => {
     // Add more objects as needed
   ]
 
-  const groups = useQuery({
-    queryKey: ['get-groups'],
-    queryFn: userService.getGroups,
-  })
 
-  console.log(groups)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = () => {
@@ -34,13 +31,14 @@ const AllGroups = () => {
   const closeModal = () => {
     setIsModalOpen(false)
   }
+
   return (
     <article className='all-groups'>
-      {groups.isPending &&
+      {isPending &&
         [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)}
       <section className='flex-column'>
         <>
-          {groups?.data?.map((item, index) => (
+          {groups?.map((item, index) => (
             <section>
               {isModalOpen && (
                 <GroupApprovalModal
@@ -56,24 +54,33 @@ const AllGroups = () => {
                 </div>
                 <div>
                   <h5>{item.name}</h5>
-                  <p>{item.membersCount}</p>
+                  <p>{item.members?.length} Members</p>
                   <p>{item.description}</p>
                 </div>
               </div>
               <div className='flex'>
+                {
+                  (item?.privacy === "public" || item.members.some(member => member.user === user._id && member.status === "approved")) ?
+                    <button className='member'>
+                      <MdOutlineCheckBox className='icon' />
+                      Member
+                    </button> :
+                    <button className='member'>
+                      <MdOutlineCheckBox className='icon' />
+                      Join group
+                    </button>
+                }
+
                 <button className='member' onClick={openModal}>
                   Make Admin
                 </button>
-                <button className='member'>
-                  <MdOutlineCheckBox className='icon' />
-                  Member
-                </button>
+
               </div>
             </section>
           ))}
         </>
       </section>
-      {groups.isError && <p>An Error Occured</p>}
+      {isError && <p>An Error Occured</p>}
     </article>
   )
 }

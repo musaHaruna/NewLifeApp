@@ -4,13 +4,33 @@ import Wrapper from '../../assets/wrappers/GroupsModal'
 import { CgCloseR } from 'react-icons/cg'
 import { useState } from 'react'
 import SuccessModal from './SuccessModal'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import adminService from '../../services/api/admin';
 import { toast } from 'react-toastify'
+import ConfirmationModal from './ConfirmationModal'
 import { RotatingLines } from 'react-loader-spinner'
 import userService from '../../services/api/user'
 
 const GroupsModal = ({ isOpen, onClose }) => {
+  const queryClient = useQueryClient();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const [formData, setFormData] = useState({
+    name: '',
+    privacy: '',
+    description: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
+
+  const openConfirmModal = () => {
+    setConfirmModalOpen(true);
+  };
+
+  const closeConfirmModal = () => {
+    setConfirmModalOpen(false);
+  };
   const [title, setTitle] = useState('')
   const [privacy, setPrivacy] = useState('public')
   const [description, setDescription] = useState('')
@@ -132,6 +152,10 @@ const GroupsModal = ({ isOpen, onClose }) => {
         {isSuccessModalOpen ? (
           <SuccessModal onClose={closeSuccessModal} />
         ) : null}
+
+        {confirmModalOpen && (
+          <ConfirmationModal onClose={closeConfirmModal} action={mutation.mutate} isLoading={mutation.isPending} message={message} />
+        )}
       </Wrapper>
     </GenericModal>
   )

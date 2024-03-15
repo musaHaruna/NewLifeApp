@@ -1,27 +1,20 @@
 import group from '../../assets/images/group-img.png'
 import { MdOutlineCheckBox } from 'react-icons/md'
+import groupImg from '../../../src/assets/images/group-img.png'
 
-const MyGroups = () => {
-  const data = [
-    {
-      imgSrc: group,
-      title: 'New members Questions and Answers',
-      membersCount: '12,003 Members',
-      description: 'All Questions concerning our platform can be asked here',
-    },
-    // Add more objects as needed
-  ]
+const MyGroups = ({ groups }) => {
+
   return (
     <article className='all-groups'>
       <section>
-        {data.map((item, index) => (
+        {groups.map((item, index) => (
           <div className='content' key={index}>
             <div className='img'>
-              <img src={item.imgSrc} alt={`group-img-${index}`} />
+              <img src={groupImg} alt={`group-img-${index}`} />
             </div>
             <div>
-              <h5>{item.title}</h5>
-              <p>{item.membersCount}</p>
+              <h5>{item.name}</h5>
+              <p>{item?.privacy === "public" ? "All" : item.members?.length} Members</p>
               <p>{item.description}</p>
             </div>
           </div>

@@ -12,9 +12,31 @@ const Wrapper = styled.article`
     text-align: center;
   }
 
+  .photo-icon {
+    color: #141b34;
+    width: 30px;
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
+  .custom-file-upload.border {
+    border: 1px dashed #141b34;
+    border-radius: 10px;
+    height: 50px;
+  }
+
+  .custom-file-upload.border label {
+    color: #b7b4b4;
+    text-decoration: none;
+  }
   textarea {
     display: block;
     width: 100%;
+  }
+
+  .sm-p {
+    color: #b7b4b4;
+    font-size: 10px;
   }
 
   button {

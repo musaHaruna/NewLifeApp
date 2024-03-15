@@ -13,6 +13,8 @@ import AddFundingModal from '../../components/Modals/AddFundingModal'
 import { useQuery } from '@tanstack/react-query'
 import user from '../../services/api/user'
 import SkeletonArticle from '../../components/skeletons/SkeletonArticle'
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6'
+import SkeletonGridCard from '../../components/skeletons/SkeletonGridCard'
 
 const Fundings = () => {
   const [activeTab, setActiveTab] = useState('all-members')
@@ -62,16 +64,13 @@ const Fundings = () => {
       </article>
 
       <article className='members-container'>
-        <section className='tabs'>
+        <section className='tabs funding'>
           <div className='groups'>
             <div>
-              <h4 className='today'>Today</h4>
+              <h4 className='today'>All</h4>
             </div>
             <div>
-              <h4 className='upcoming'>
-                Upcoming
-                <IoIosArrowDown />
-              </h4>
+              <h4 className='upcoming'>Recent</h4>
             </div>
           </div>
           <div className='displays'>
@@ -85,34 +84,38 @@ const Fundings = () => {
         </section>
 
         {getFundings.isPending ? (
-          [1, 2, 3, 4, 5].map((n) => <SkeletonArticle key={n} theme='light' />)
+          <div className='skeleton-grid'>
+            {[1, 2, 3, 4].map((n) => (
+              <SkeletonGridCard key={n} theme='light' />
+            ))}
+          </div>
         ) : (
-          <section className='event-container'>
-            <section>
-              {getFundings?.data?.fundings?.map((event, index) => (
-                <section className='events' key={index}>
-                  <div className='event-content'>
-                    <p>
-                      {new Date(event.createdAt).toLocaleDateString(
-                        'en-US',
-                        options
-                      )}{' '}
-                    </p>
-                    <h5>{event.title}</h5>
-                    <p className='summary'>{event.summary}</p>
-                  </div>
-                  <div className='picture'>
-                    <img src={event.url} alt='' />
-                  </div>
-                </section>
-              ))}
-            </section>
-            <div className='nav-btns'>
-              <p>Older</p>
-              <p>Newer</p>
-            </div>
+          <section className='funding-grid'>
+            {getFundings?.data?.fundings?.map((event, index) => (
+              <section className='events' key={index}>
+                <div className='cover-picture'>
+                  <img src={event.url} alt='' />
+                </div>
+                <div className='event-content funding'>
+                  <h5 className='title'>{event.title}</h5>
+                  <p className='summary-funding'>{event.summary}</p>
+                  <a
+                    className='link'
+                    href={event.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    Visit Funding Page <FaArrowUpRightFromSquare />
+                  </a>
+                </div>
+              </section>
+            ))}
           </section>
         )}
+        <div className='nav-btns'>
+          <p>Older</p>
+          <p>Newer</p>
+        </div>
       </article>
     </Wrapper>
   )

@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
+import { MdPhoto } from 'react-icons/md'
 import { RotatingLines } from 'react-loader-spinner'
 const AddFundingModal = ({ onClose, message }) => {
   const modalStyle = {
@@ -114,14 +115,8 @@ const AddFundingModal = ({ onClose, message }) => {
         </div>
 
         <form onSubmit={handleDocumentUpload}>
-          <div class='custom-file-upload'>
-            <input type='file' id='upload' onChange={handleDocumentChange} />
-            <label for='upload'>
-              {selecteDocument ? 'File ready for upload' : 'Upload Photo'}{' '}
-            </label>
-          </div>
           <label>
-            Title of Document
+            Title of Funding
             <input
               type='text'
               placeholder='Enter title here'
@@ -130,7 +125,7 @@ const AddFundingModal = ({ onClose, message }) => {
             />
           </label>
           <label>
-            Summary
+            Summary of Funding
             <textarea
               name='summary'
               id='summary'
@@ -143,7 +138,7 @@ const AddFundingModal = ({ onClose, message }) => {
           </label>
 
           <label>
-            Url
+            Link to Funding
             <input
               type='text'
               id='urlInput'
@@ -153,6 +148,18 @@ const AddFundingModal = ({ onClose, message }) => {
               onChange={handleUrlChange}
             />
           </label>
+
+          <div class='custom-file-upload border'>
+            <input type='file' id='upload' onChange={handleDocumentChange} />
+            <MdPhoto  className='photo-icon'/>
+            <label for='upload'>
+              {selecteDocument ? 'File ready for upload' : 'Choose Cover Photo'}{' '}
+            </label>
+          </div>
+          <p className='sm-p'>
+            You can upload cover photo/ flyer in (jpg, png). Maximum file size
+            is 10mb.
+          </p>
           <button className='action-btn' type='submit'>
             {documentMutation.isPending ? (
               <RotatingLines

@@ -14,6 +14,10 @@
   height: 20px;
   margin-bottom: 15px;
 }
+.skeleton.card {
+  width: 100%;
+  height: 200px;
+}
 .skeleton.avatar {
   width: 100px;
   height: 100px;
@@ -29,6 +33,7 @@
   border-radius: 4px;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 /* skeleton profile */
@@ -63,17 +68,23 @@
 .shimmer {
   width: 50%;
   height: 100%;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   transform: skewX(-20deg);
-  box-shadow: 0 0 30px 30px rgba(255,255,255,0.2);
+  box-shadow: 0 0 30px 30px rgba(255, 255, 255, 0.2);
 }
 .dark .shimmer {
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 0 30px 30px rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 30px 30px rgba(255, 255, 255, 0.05);
 }
 
 @keyframes loading {
-  0% { transform: translateX(-150%) }
-  50% { transform: translateX(-60%) }
-  100% { transform: translateX(150%) }
+  0% {
+    transform: translateX(-150%);
+  }
+  50% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(150%);
+  }
 }

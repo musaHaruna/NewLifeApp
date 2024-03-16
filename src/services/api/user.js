@@ -196,6 +196,16 @@ class UserOBJ {
     }
   }
 
+  //Get others profile
+  getOthersProfile = async (id) => {
+    try {
+      const response = await api.get(`/api/users/${id}`)
+      return response.data
+    } catch (err) {
+      throw err?.response?.data || err.message
+    }
+  }
+
   // Upload document
   uploadDocument = async (formData) => {
     try {

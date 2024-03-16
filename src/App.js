@@ -12,6 +12,7 @@ import {
   Forum,
   Members,
   Fundings,
+  OthersProfile,
 } from './pages/dashboard'
 import Events from './pages/dashboard/Events'
 import Notifications from './pages/dashboard/Notifications'
@@ -40,7 +41,8 @@ function App() {
           <Route path='notifications' element={<Notifications />} />
           <Route path='messages' element={<Messages />} />
           <Route path='profile' element={<Profile />} />
-          <Route path='user-profile' element={<Profile />} /> {/*for other users*/}
+          <Route path='user-profile/:id' element={<OthersProfile />} />{' '}
+          {/*for other users*/}
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />

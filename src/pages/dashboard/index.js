@@ -5,5 +5,6 @@ import SharedLayout from './SharedLayout'
 import Feeds from './Feeds'
 import Members from './Members'
 import Resources from './Resources'
+import OthersProfile from './OthersProfile'
 
-export { Resources, Fundings, Groups, Forum, Feeds, Members, SharedLayout }
+export { Resources, Fundings, Groups, Forum, Feeds, Members, SharedLayout, OthersProfile }

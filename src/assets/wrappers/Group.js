@@ -315,9 +315,43 @@ const Wrapper = styled.main`
     border-radius: 8px;
     overflow: hidden;
   }
+
+  .post.event {
+    border-radius: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 2rem;
+    gap: 1rem;
+  }
   .post-author {
     display: flex;
     gap: 1rem;
+  }
+
+  .card .time {
+    color: #2a4d93;
+    margin: 0.5rem 0;
+  }
+
+  .card .content {
+    font-size: 12px;
+  }
+
+  .card {
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid #b7b4b4;
+  }
+
+  .card-img {
+    height: 100px;
+  }
+
+  .card h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e1e1e;
+    margin: 0.2rem 0;
   }
 
   .post-author h3 {

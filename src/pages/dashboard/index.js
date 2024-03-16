@@ -6,5 +6,6 @@ import Feeds from './Feeds'
 import Members from './Members'
 import Resources from './Resources'
 import OthersProfile from './OthersProfile'
+import SingleGroup from './SingleGroup'
 
-export { Resources, Fundings, Groups, Forum, Feeds, Members, SharedLayout, OthersProfile }
+export { Resources, SingleGroup, Fundings, Groups, Forum, Feeds, Members, SharedLayout, OthersProfile }

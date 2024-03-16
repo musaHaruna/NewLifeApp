@@ -343,6 +343,81 @@ const Wrapper = styled.main`
     border: 1px solid #b7b4b4;
   }
 
+  .list-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .head {
+    font-weight: 600;
+    font-size: 17px;
+  }
+
+  .img-wrapper {
+    width: 40px;
+    background-color: #b7b4b4;
+    border-radius: 50%;
+    margin: 1rem 0;
+  }
+
+  .list-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .icons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  .role {
+    font-size: 10px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f2f7fd;
+  }
+
+  .list-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .card-img {
+    height: 100%;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  .li-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+    border-radius: 0;
+  }
+  .file-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .li-flex button {
+    border: none;
+    background-color: transparent;
+    color: #2a4d93;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .card-img {
     height: 100px;
   }
@@ -460,6 +535,7 @@ const Wrapper = styled.main`
     color: #565656;
     gap: 0.5rem;
     background-color: #fff;
+    cursor: pointer;
   }
 
   .edit-education {

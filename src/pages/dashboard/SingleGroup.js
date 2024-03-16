@@ -14,11 +14,20 @@ import { LiaEdit } from 'react-icons/lia'
 import { SlCalender } from 'react-icons/sl'
 import { IoStatsChartOutline } from 'react-icons/io5'
 import { CiCalendar, CiFolderOn } from 'react-icons/ci'
+import AddGroupEventModal from '../../components/Modals/AddGroupEventModal'
 
 const SingleGroup = () => {
   const [activeTab, setActiveTab] = useState('feeds')
   const { user } = useSelector((state) => state.user)
   const { id } = useParams()
+  const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
+  const openAddEventModal = () => {
+    setIsAddEventModalOpen(true)
+  }
+
+  const closeAddEventModal = () => {
+    setIsAddEventModalOpen(false)
+  }
 
   const getOtherUserProfile = useQuery({
     queryKey: ['get-user-profile'],
@@ -28,6 +37,9 @@ const SingleGroup = () => {
   console.log(getOtherUserProfile)
   return (
     <Wrapper>
+      {isAddEventModalOpen && (
+        <AddGroupEventModal onClose={closeAddEventModal} />
+      )}
       <article>
         <div>
           <img src={profileBg} alt='' />
@@ -84,7 +96,7 @@ const SingleGroup = () => {
             <button>
               <LiaEdit /> Make a post
             </button>
-            <button>
+            <button onClick={openAddEventModal}>
               <CiCalendar /> Create an Event
             </button>
             <button>

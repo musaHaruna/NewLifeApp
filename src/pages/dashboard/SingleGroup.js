@@ -15,6 +15,8 @@ import { SlCalender } from 'react-icons/sl'
 import { IoStatsChartOutline } from 'react-icons/io5'
 import { CiCalendar, CiFolderOn } from 'react-icons/ci'
 import AddGroupEventModal from '../../components/Modals/AddGroupEventModal'
+import CreatePollModal from '../../components/Modals/CreatePollModal'
+import MakePostModal from '../../components/Modals/MakePostModal'
 
 const SingleGroup = () => {
   const [activeTab, setActiveTab] = useState('feeds')
@@ -29,6 +31,26 @@ const SingleGroup = () => {
     setIsAddEventModalOpen(false)
   }
 
+  const [isCreatePollModalOpen, setIsCreatePollModalOpen] = useState(false)
+
+  const openCreatePollModal = () => {
+    setIsCreatePollModalOpen(true)
+  }
+
+  const closeCreatePollModal = () => {
+    setIsCreatePollModalOpen(false)
+  }
+
+  const [isMakePostModalOpen, setIsMakePostModalOpen] = useState(false)
+
+  const openMakePostModal = () => {
+    setIsMakePostModalOpen(true)
+  }
+
+  const closeMakePostModal = () => {
+    setIsMakePostModalOpen(false)
+  }
+
   const getOtherUserProfile = useQuery({
     queryKey: ['get-user-profile'],
     queryFn: () => userServices.getOthersProfile(id),
@@ -40,6 +62,10 @@ const SingleGroup = () => {
       {isAddEventModalOpen && (
         <AddGroupEventModal onClose={closeAddEventModal} />
       )}
+      {isCreatePollModalOpen && (
+        <CreatePollModal onClose={closeCreatePollModal} />
+      )}
+      {isMakePostModalOpen && <MakePostModal onClose={closeMakePostModal} />}
       <article>
         <div>
           <img src={profileBg} alt='' />
@@ -93,13 +119,13 @@ const SingleGroup = () => {
       <article className='tab-container'>
         <section>
           <div className='modals-btn'>
-            <button>
+            <button onClick={openMakePostModal}>
               <LiaEdit /> Make a post
             </button>
             <button onClick={openAddEventModal}>
               <CiCalendar /> Create an Event
             </button>
-            <button>
+            <button onClick={openCreatePollModal}>
               <IoStatsChartOutline /> Create a Poll
             </button>
             <button>

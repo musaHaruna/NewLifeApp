@@ -25,6 +25,31 @@ const Wrapper = styled.article`
     height: 50px;
   }
 
+  .custom-file-upload.mul-file {
+    border: none;
+  }
+
+  .img-flex {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .img-width {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+  .img-wrapper-flex {
+    display: flex;
+    align-items: end;
+    gap: 0.5rem;
+  }
+
+  .custom-file-upload.mul-file label {
+    color: #2a4d93;
+    font-weight: 500;
+  }
+
   .custom-file-upload.border label {
     color: #b7b4b4;
     text-decoration: none;

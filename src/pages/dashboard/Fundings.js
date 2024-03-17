@@ -20,6 +20,7 @@ const Fundings = () => {
   const [activeTab, setActiveTab] = useState('all-members')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isAddFundingModalOpen, setIsAddFundingModalOpen] = useState(false)
+
   const closeAddFundingModal = () => {
     setIsAddFundingModalOpen(false)
   }
@@ -41,7 +42,7 @@ const Fundings = () => {
     queryKey: ['get-fundings'],
     queryFn: user.getFundings,
   })
-  console.log(getFundings)
+
 
   return (
     <Wrapper>
@@ -58,7 +59,7 @@ const Fundings = () => {
           </div>
           <div className='btn-primary '>
             <CgAddR className='icon' />
-            <button onClick={openAddFundingModal}>Create New Forum</button>
+            <button onClick={openAddFundingModal}>Create New Funding</button>
           </div>
         </div>
       </article>
@@ -94,7 +95,7 @@ const Fundings = () => {
             {getFundings?.data?.fundings?.map((event, index) => (
               <section className='events' key={index}>
                 <div className='cover-picture'>
-                  <img src={event.url} alt='' />
+                  <img src={event.image} alt='' />
                 </div>
                 <div className='event-content funding'>
                   <h5 className='title'>{event.title}</h5>

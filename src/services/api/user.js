@@ -306,6 +306,18 @@ class UserOBJ {
     }
   }
 
+  //Add fundings
+  addFundingsWithoutImage = async (formData) => {
+    console.log(formData)
+    try {
+      const response = await api.post(`api/admin/fundings-noimage`, formData)
+      return response.data
+    } catch (err) {
+      console.log(err)
+      throw err?.response?.data || err.message
+    }
+  }
+
   makeGroupAdmin = async (params, data) => {
     try {
       // Check if data is not empty

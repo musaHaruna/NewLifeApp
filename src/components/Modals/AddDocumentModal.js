@@ -3,11 +3,12 @@ import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
 import { MdInsertPhoto } from 'react-icons/md'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
 import { RotatingLines } from 'react-loader-spinner'
+
 const AddDocumentModal = ({ onClose, message }) => {
   const modalStyle = {
     display: 'block',
@@ -29,9 +30,14 @@ const AddDocumentModal = ({ onClose, message }) => {
     padding: '1.5rem',
   }
 
-  const [selectedGroup, setSelectedGroup] = useState('Group 1')
+  const [selectedGroup, setSelectedGroup] = useState()
   const [documentTitle, setDocumentTitle] = useState('')
   const [selecteDocument, setSelectedDocument] = useState(null)
+
+  const { data } = useQuery({
+    queryKey: ['get-groups'],
+    queryFn: user.getGroups,
+  })
 
   const handleDocumentChange = (e) => {
     setSelectedDocument(e.target.files[0])
@@ -44,7 +50,7 @@ const AddDocumentModal = ({ onClose, message }) => {
   const handleDocumentTitleChange = (event) => {
     setDocumentTitle(event.target.value)
   }
-  const [selectedVisibility, setSelectedVisibility] = useState('')
+  const [selectedVisibility, setSelectedVisibility] = useState("public")
 
   const handleVisibilityChange = (event) => {
     setSelectedVisibility(event.target.value)
@@ -59,8 +65,8 @@ const AddDocumentModal = ({ onClose, message }) => {
       return
     }
     if (!selectedGroup) {
-      toast.error('Please select a group')
-      return
+      if (!window.confirm("No group selected. Click OK to continue.")) return
+
     }
     if (!selecteDocument) {
       toast.error('Please select a file')
@@ -76,7 +82,7 @@ const AddDocumentModal = ({ onClose, message }) => {
       const formData = new FormData()
       formData.append('document', selecteDocument)
       formData.append('name', documentTitle)
-      formData.append('group', '65df41fbcd5c97c1ab22b042')
+      formData.append('group', selectedGroup)
       formData.append('visibilty', selectedVisibility.toLowerCase())
 
       try {
@@ -130,9 +136,12 @@ const AddDocumentModal = ({ onClose, message }) => {
           <label>
             Group to upload to
             <select value={selectedGroup} onChange={handleGroupChange}>
-              <option value='group1'>Group 1</option>
-              <option value='group2'>Group 2</option>
-              <option value='group3'>Group 3</option>
+              <option value="">All</option>
+              {data?.map(item => <option key={item._id} value={item._id}>{item?.name}</option>
+              )
+
+              }
+
             </select>
           </label>
 

@@ -3,13 +3,15 @@ import Wrapper from '../../assets/wrappers/SuccessModal'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
 import { MdInsertPhoto } from 'react-icons/md'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import user from '../../services/api/user'
 import { MdPhoto } from 'react-icons/md'
 import { RotatingLines } from 'react-loader-spinner'
+
 const AddFundingModal = ({ onClose, message }) => {
+  const queryClient = useQueryClient();
   const modalStyle = {
     display: 'block',
     position: 'fixed',
@@ -65,37 +67,44 @@ const AddFundingModal = ({ onClose, message }) => {
       return
     }
     if (!selecteDocument) {
-      toast.error('Please select a file')
-      return
+      if (!window.confirm("No image selected. Click Ok to continue.")) return
     }
 
     if (!summaryValue) {
       toast.error('Please enter summary')
       return
     }
+    let formData;
 
     if (selecteDocument) {
-      const formData = new FormData()
+      formData = new FormData()
       formData.append('image', selecteDocument)
       formData.append('title', documentTitle)
       formData.append('summary', summaryValue)
       formData.append('url', urlValue)
-
-      try {
-        await documentMutation.mutateAsync(formData)
-        setSelectedDocument(null) // Reset selected file after upload
-        onClose()
-      } catch (error) {
-        console.log(error)
+    } else {
+      formData = {
+        title: documentTitle,
+        summary: summaryValue,
+        url: urlValue
       }
+    }
+
+    try {
+      documentMutation.mutate(formData)
+      setSelectedDocument(null) // Reset selected file after upload
+      onClose()
+    } catch (error) {
+      console.log(error)
     }
   }
 
+
   const documentMutation = useMutation({
-    mutationFn: user.addFundings,
-    queryKey: ['get-documents'],
+    mutationFn: selecteDocument ? user.addFundings : user.addFundingsWithoutImage,
     onSuccess: (data) => {
       toast.success('Funding uploaded successfully')
+      queryClient.invalidateQueries(['get-fundings']);
       onClose()
     },
     onError: (error) => {
@@ -151,7 +160,7 @@ const AddFundingModal = ({ onClose, message }) => {
 
           <div class='custom-file-upload border'>
             <input type='file' id='upload' onChange={handleDocumentChange} />
-            <MdPhoto  className='photo-icon'/>
+            <MdPhoto className='photo-icon' />
             <label for='upload'>
               {selecteDocument ? 'File ready for upload' : 'Choose Cover Photo'}{' '}
             </label>

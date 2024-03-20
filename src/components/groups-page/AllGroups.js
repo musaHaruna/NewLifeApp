@@ -11,9 +11,10 @@ import userService from '../../services/api/user'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import ConfirmationModal from '../Modals/ConfirmationModal'
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const AllGroups = ({ groups, isPending, isError }) => {
+  const navigate = useNavigate()
   const { user } = useSelector((store) => store.user)
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const queryClient = useQueryClient()
@@ -84,9 +85,9 @@ const AllGroups = ({ groups, isPending, isError }) => {
                   <img src={groupImg} alt={`group-img-${index}`} />
                 </div>
                 <div>
-                  <Link to={`/group/${index}`}>
+                  <p style={{ cursor: "pointer" }} onClick={() => navigate(`/group/${index}`, { state: { item } })}>
                     <h5>{item.name}</h5>
-                  </Link>
+                  </p>
 
                   <p>
                     {item?.privacy === 'public' ? 'All' : item.members?.length}{' '}
@@ -97,18 +98,18 @@ const AllGroups = ({ groups, isPending, isError }) => {
               </div>
               <div className='flex'>
                 {item?.privacy === 'public' ||
-                item.members.some(
-                  (member) =>
-                    member.user === user._id && member.status === 'approved'
-                ) ? (
+                  item.members.some(
+                    (member) =>
+                      member.user === user._id && member.status === 'approved'
+                  ) ? (
                   <button className='member'>
                     <MdOutlineCheckBox className='icon' />
                     Member
                   </button>
                 ) : item.members.some(
-                    (member) =>
-                      member.user === user._id && member.status === 'pending'
-                  ) ? (
+                  (member) =>
+                    member.user === user._id && member.status === 'pending'
+                ) ? (
                   <button className='member'>
                     <MdOutlineCheckBox className='icon' />
                     Request Sent

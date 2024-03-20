@@ -5,7 +5,7 @@ import profile from '../../assets/images/profile.png'
 import { useSelector } from 'react-redux'
 import { useQuery } from '@tanstack/react-query'
 import userServices from '../../services/api/user'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import GroupFeeds from '../../components/group-page/GroupFeeds'
 import GroupEvents from '../../components/group-page/GroupEvents'
 import GroupMembers from '../../components/group-page/GroupMembers'
@@ -19,10 +19,16 @@ import CreatePollModal from '../../components/Modals/CreatePollModal'
 import MakePostModal from '../../components/Modals/MakePostModal'
 
 const SingleGroup = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('feeds')
   const { user } = useSelector((state) => state.user)
   const { id } = useParams()
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false)
+  // Access the item object from the location state
+  const item = location.state?.item;
+
+  console.log(item)
+
   const openAddEventModal = () => {
     setIsAddEventModalOpen(true)
   }
@@ -51,12 +57,12 @@ const SingleGroup = () => {
     setIsMakePostModalOpen(false)
   }
 
-  const getOtherUserProfile = useQuery({
-    queryKey: ['get-user-profile'],
-    queryFn: () => userServices.getOthersProfile(id),
-  })
+  // const getOtherUserProfile = useQuery({
+  //   queryKey: ['get-user-profile'],
+  //   queryFn: () => userServices.getOthersProfile(id),
+  // })
 
-  console.log(getOtherUserProfile)
+
   return (
     <Wrapper>
       {isAddEventModalOpen && (
@@ -73,16 +79,18 @@ const SingleGroup = () => {
         <section className='profile-summary'>
           <div className='profile-image'>
             <img
-              src={getOtherUserProfile?.data?.photo || profile}
+              src={
+                // getOtherUserProfile?.data?.photo ||
+                profile}
               alt=''
               className='img'
             />
           </div>
           <div>
-            <h3 className='profile-name'>New members Question and Answers</h3>
+            <h3 className='profile-name'>{item?.name}</h3>
             <p>
               {' '}
-              <span>12,045 Members</span> | <span> 243 Online</span>
+              <span>{item?.members?.length} Members</span> | <span> 243 Online</span>
             </p>
           </div>
         </section>
@@ -110,7 +118,7 @@ const SingleGroup = () => {
               onClick={() => setActiveTab('members')}
               className={`tab-btn ${activeTab === 'members' ? 'active' : ''}`}
             >
-              Members <span className='member-no'>200</span>
+              Members <span className='member-no'>{item?.members?.length}</span>
             </h3>
           </div>
         </div>
@@ -134,15 +142,16 @@ const SingleGroup = () => {
           </div>
           {activeTab === 'feeds' && <GroupFeeds />}
           {activeTab === 'events' && <GroupEvents />}
-          {activeTab === 'members' && <GroupMembers />}
+          {activeTab === 'members' && <GroupMembers
+            members={item?.members}
+          />}
           {activeTab === 'files' && <GroupFiles />}
         </section>
         <section>
           <div className='description'>
             <h4>DESCRIPTION</h4>
             <p>
-              A group crafted to inform you about everything going on, on this
-              platform. We are here to answer all your questiona dn queries{' '}
+              {item?.description}{' '}
             </p>
           </div>
           <div className='description events'>
